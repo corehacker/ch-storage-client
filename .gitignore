@@ -1,0 +1,62 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+.cproject
+.project
+.settings
+.dirstamp
+src/*.o
+src/*.lo
+src/*.la
+src/.libs
+test/*.o
+test/*.lo
+.deps
+Makefile
+config.h
+config.log
+config.status
+libtool
+src/Makefile
+stamp-h1
+autom4te.cache
+build-aux
+config.h.in~
+m4
+Makefile.in
+aclocal.m4
+config.h.in
+configure
+src/Makefile.in
+src/ch-storage-client
+data/*

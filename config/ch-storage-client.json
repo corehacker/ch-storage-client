@@ -1,0 +1,18 @@
+{
+    "name": "living-1",
+    "watch": [
+        "./data"
+    ],
+    "filters": [
+        "ts"
+    ],
+    "server": {
+        "hostname": "localhost",
+        "port": 8888,
+        "prefix": "/security/camera/media"
+    },
+    "purge": {
+        "ttl-s": 60,
+        "interval-s": 2
+    }
+}
