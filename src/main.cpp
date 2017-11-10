@@ -74,6 +74,7 @@ static void initEncode() {
 	if (pid == -1) {
 		perror("fork");
 		LOG(ERROR) << "Forking encode process failed. Errno: " << errno;
+		exit(1);
 	} else if (pid > 0) {
 		LOG(INFO) << "Forking encode process success. In parent: " << getpid();
 		initClient();
@@ -94,10 +95,27 @@ static void initEncode() {
 }
 
 static void initCapture() {
+
+	int fifo = mkfifo(config->getPipeFile().data(), S_IWUSR | S_IRUSR | S_IRGRP | S_IROTH);
+	if(fifo < 0) {
+		if(EEXIST != errno) {
+			perror("mkfifo");
+			LOG(ERROR) << "Creating fifo file " << config->getPipeFile() <<
+					" failed. Errno: " << errno;
+			exit(1);
+		} else {
+			LOG(ERROR) << "Fifo file " << config->getPipeFile() <<
+				" already exists.";
+		}
+	}
+	LOG(ERROR) << "Creating fifo file " << config->getPipeFile() <<
+			" success.";
+
 	pid_t pid = fork();
 	if (pid == -1) {
 		perror("fork");
 		LOG(ERROR) << "Forking capture process failed. Errno: " << errno;
+		exit(1);
 	} else if (pid > 0) {
 		LOG(INFO) << "Forking capture process success. In parent: " << getpid();
 		int status;
