@@ -71,6 +71,9 @@ Config::Config() {
 
 	mPurgeIntervalSec = 60;
 	mPurgeTtlSec= 60;
+	mCameraEnable = false;
+
+	mDaemon = false;
 }
 
 Config::~Config() {
@@ -140,7 +143,23 @@ bool Config::validateConfigFile() {
 		for(string command : mJson["camera"]["commands"]["encode"]) {
 			mCameraEncode.emplace_back(command);
 		}
+
+		// 1 extra for nullptr.
+		mCameraCaptureChars.reserve(mCameraCapture.size() + 1);
+		for(string str : mCameraCapture) {
+			mCameraCaptureChars.push_back(const_cast<char*>(str.c_str()));
+		}
+		mCameraCaptureChars.push_back(const_cast<char*>((char *) nullptr));
+
+		// 1 extra for nullptr.
+		mCameraEncodeChars.reserve(mCameraEncode.size() + 1);
+		for(string str : mCameraEncode) {
+			mCameraEncodeChars.push_back(const_cast<char*>(str.c_str()));
+		}
+		mCameraEncodeChars.push_back(const_cast<char*>((char *) nullptr));
 	}
+
+	mDaemon = mJson["daemon"];
 
 	LOG(INFO) << "----------------------->Config";
 	return true;
@@ -190,6 +209,50 @@ uint32_t Config::getPurgeTtlSec() {
 
 uint32_t Config::getPurgeIntervalSec() {
 	return mPurgeIntervalSec;
+}
+
+bool Config::isCameraEnabled() {
+	return mCameraEnable;
+}
+
+string &Config::getPipeFile() {
+	return mPipeFile;
+}
+
+vector<string> &Config::getCameraCapture() {
+	return mCameraCapture;
+}
+
+vector<string> &Config::getCameraEncode() {
+	return mCameraEncode;
+}
+
+vector<char *> &Config::getCameraCaptureChars() {
+	return mCameraCaptureChars;
+}
+
+vector<char *> &Config::getCameraEncodeChars() {
+	return mCameraEncodeChars;
+}
+
+bool Config::hasCameraCaptureCharsPtrs() {
+	return (mCameraCaptureChars.size() ? true : false);
+}
+
+bool Config::hasCameraEncodeCharsPtrs() {
+	return (mCameraEncodeChars.size() ? true : false);
+}
+
+char **Config::getCameraCaptureCharsPtrs() {
+	return (mCameraCaptureChars.size() ? &mCameraCaptureChars[0] : nullptr);
+}
+
+char **Config::getCameraEncodeCharsPtrs() {
+	return (mCameraEncodeChars.size() ? &mCameraEncodeChars[0] : nullptr);
+}
+
+bool Config::isDaemon() {
+	return mDaemon;
 }
 
 } // End namespace SS.

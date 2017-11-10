@@ -1,5 +1,6 @@
 {
     "name": "living-1",
+    "daemon": false,
     "watch": [
         "./data"
     ],

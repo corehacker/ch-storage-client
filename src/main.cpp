@@ -44,6 +44,7 @@
 #include <signal.h>
 #include <csignal>
 #include <iostream>
+#include <sys/wait.h>
 #include <glog/logging.h>
 
 #include "storage-client.hpp"
@@ -55,19 +56,78 @@ using SC::CameraCapture;
 
 static Config *config = nullptr;
 static StorageClient *client = nullptr;
-static CameraCapture *capture = nullptr;
 
 static void initEnv();
 static void deinitEnv();
+
+static void initClient();
+static void initEncode();
+static void initCapture();
+
+static void initClient() {
+	client = new StorageClient(config);
+	client->start();
+}
+
+static void initEncode() {
+	pid_t pid = fork();
+	if (pid == -1) {
+		perror("fork");
+		LOG(ERROR) << "Forking encode process failed. Errno: " << errno;
+	} else if (pid > 0) {
+		LOG(INFO) << "Forking encode process success. In parent: " << getpid();
+		initClient();
+
+		int status;
+		waitpid(pid, &status, 0);
+		LOG(INFO) << "Encode process exited. In parent: " << getpid();
+	} else {
+		LOG(INFO) << "Forking encode process success. In child: " << getpid();
+		char **args = config->getCameraEncodeCharsPtrs();
+		if (execvp(*args, args) < 0) {     /* execute the command  */
+			perror("execvp-encode");
+			LOG(ERROR) << "Encode process exec failed. In child: " << getpid();
+			exit(1);
+		}
+		LOG(INFO) << "Encode process exiting. In child: " << getpid();
+	}
+}
+
+static void initCapture() {
+	pid_t pid = fork();
+	if (pid == -1) {
+		perror("fork");
+		LOG(ERROR) << "Forking capture process failed. Errno: " << errno;
+	} else if (pid > 0) {
+		LOG(INFO) << "Forking capture process success. In parent: " << getpid();
+		int status;
+
+		initEncode();
+
+		waitpid(pid, &status, 0);
+		LOG(INFO) << "Capture process exited. In parent: " << getpid();
+	} else {
+		LOG(INFO) << "Forking capture process success. In child: " << getpid();
+		char **args = config->getCameraCaptureCharsPtrs();
+		if (execvp(*args, args) < 0) {     /* execute the command  */
+			perror("execvp-capture");
+			LOG(ERROR) << "Capture process exec failed. In child: " << getpid();
+			exit(1);
+		}
+		LOG(INFO) << "Capture process exiting. In child: " << getpid();
+	}
+}
 
 static void initEnv() {
 	config = new Config();
 	config->init();
 
-	client = new StorageClient(config);
-	client->start();
-
-	capture = new CameraCapture(config);
+	if (config->isCameraEnabled() && config->hasCameraCaptureCharsPtrs()
+			&& config->hasCameraEncodeCharsPtrs()) {
+		initCapture();
+	} else {
+		initClient();
+	}
 }
 
 static void deinitEnv() {

@@ -91,6 +91,11 @@ private:
 	vector<string> mCameraCapture;
 	vector<string> mCameraEncode;
 
+	vector<char *> mCameraCaptureChars;
+	vector<char *> mCameraEncodeChars;
+
+	bool mDaemon;
+
 	bool selectConfigFile();
 	bool validateConfigFile();
 public:
@@ -108,6 +113,17 @@ public:
 	string &getName();
 	uint32_t getPurgeTtlSec();
 	uint32_t getPurgeIntervalSec();
+	bool isCameraEnabled();
+	string &getPipeFile();
+	vector<string> &getCameraCapture();
+	vector<string> &getCameraEncode();
+	vector<char *> &getCameraCaptureChars();
+	vector<char *> &getCameraEncodeChars();
+	bool hasCameraCaptureCharsPtrs();
+	bool hasCameraEncodeCharsPtrs();
+	char **getCameraCaptureCharsPtrs();
+	char **getCameraEncodeCharsPtrs();
+	bool isDaemon();
 };
 
 } // End namespace SC.
