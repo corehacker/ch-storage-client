@@ -49,6 +49,8 @@
 #include <ch-cpp-utils/http-request.hpp>
 #include <ch-cpp-utils/timer.hpp>
 
+#include "config.hpp"
+
 #ifndef SRC_STORAGE_CLIENT_HPP_
 #define SRC_STORAGE_CLIENT_HPP_
 
@@ -68,42 +70,6 @@ using ChCppUtils::Http::Client::HttpRequest;
 using ChCppUtils::Http::Client::HttpRequestLoadEvent;
 
 namespace SC {
-
-class Config {
-private:
-	string etcConfigPath;
-	string localConfigPath;
-	string selectedConfigPath;
-
-	vector<string> watchDirs;
-	vector<string> filters;
-
-	string hostname;
-	uint16_t port;
-	string prefix;
-	string name;
-
-	uint32_t mPurgeTtlSec;
-	uint32_t mPurgeIntervalSec;
-
-	bool selectConfigFile();
-	bool validateConfigFile();
-public:
-	json mJson;
-
-	Config();
-	~Config();
-	void init();
-
-	vector<string> &getWatchDirs();
-	vector<string> &getFilters();
-	string &getHostname();
-	uint16_t getPort();
-	string &getPrefix();
-	string &getName();
-	uint32_t getPurgeTtlSec();
-	uint32_t getPurgeIntervalSec();
-};
 
 class StorageClient {
 private:
@@ -130,7 +96,7 @@ public:
 	void start();
 };
 
-} // End namespace SS.
+} // End namespace SC.
 
 
 #endif /* SRC_STORAGE_CLIENT_HPP_ */

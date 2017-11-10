@@ -30,7 +30,7 @@
 /*******************************************************************************
  * Copyright (c) 2017, Sandeep Prakash <123sandy@gmail.com>
  *
- * \file   main.cpp
+ * \file   storage-client.hpp
  *
  * \author Sandeep Prakash
  *
@@ -39,55 +39,78 @@
  * \brief
  *
  ******************************************************************************/
+#include <vector>
+#include <string>
+#include "../third-party/json/json.hpp"
+#include <ch-cpp-utils/timer.hpp>
+#include <ch-cpp-utils/utils.hpp>
+#include <ch-cpp-utils/fs-watch.hpp>
+#include <ch-cpp-utils/utils.hpp>
+#include <ch-cpp-utils/http-request.hpp>
+#include <ch-cpp-utils/timer.hpp>
 
-#include <stdlib.h>
-#include <signal.h>
-#include <csignal>
-#include <iostream>
-#include <glog/logging.h>
+#ifndef SRC_CONFIG_HPP_
+#define SRC_CONFIG_HPP_
 
-#include "storage-client.hpp"
-#include "camera-capture.hpp"
+using std::vector;
+using std::string;
+using namespace std::chrono;
 
-using SC::StorageClient;
-using SC::Config;
-using SC::CameraCapture;
+using json = nlohmann::json;
 
-static Config *config = nullptr;
-static StorageClient *client = nullptr;
-static CameraCapture *capture = nullptr;
+using ChCppUtils::FsWatch;
+using ChCppUtils::Fts;
+using ChCppUtils::FtsOptions;
+using ChCppUtils::Timer;
+using ChCppUtils::TimerEvent;
 
-static void initEnv();
-static void deinitEnv();
+using ChCppUtils::Http::Client::HttpRequest;
+using ChCppUtils::Http::Client::HttpRequestLoadEvent;
 
-static void initEnv() {
-	config = new Config();
-	config->init();
+namespace SC {
 
-	client = new StorageClient(config);
-	client->start();
+class Config {
+private:
+	string etcConfigPath;
+	string localConfigPath;
+	string selectedConfigPath;
 
-	capture = new CameraCapture(config);
-}
+	vector<string> watchDirs;
+	vector<string> filters;
 
-static void deinitEnv() {
-	LOG(INFO) << "Stopping client...";
-//	client->stop();
-	LOG(INFO) << "Stopped client...";
-	delete client;
-	LOG(INFO) << "Deleted client...";
-	delete config;
-	LOG(INFO) << "Deleted config...";
-}
+	string hostname;
+	uint16_t port;
+	string prefix;
+	string name;
 
-int main(int argc, char **argv) {
-	initEnv();
+	uint32_t mPurgeTtlSec;
+	uint32_t mPurgeIntervalSec;
 
-	THREAD_SLEEP_FOREVER;
+	bool mCameraEnable;
+	string mPipeFile;
+	vector<string> mCameraCapture;
+	vector<string> mCameraEncode;
 
-	deinitEnv();
+	bool selectConfigFile();
+	bool validateConfigFile();
+public:
+	json mJson;
 
-	return 0;
-}
+	Config();
+	~Config();
+	void init();
+
+	vector<string> &getWatchDirs();
+	vector<string> &getFilters();
+	string &getHostname();
+	uint16_t getPort();
+	string &getPrefix();
+	string &getName();
+	uint32_t getPurgeTtlSec();
+	uint32_t getPurgeIntervalSec();
+};
+
+} // End namespace SC.
 
 
+#endif /* SRC_CONFIG_HPP_ */

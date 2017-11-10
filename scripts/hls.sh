@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #base="/var/www/html/hls"
-base="/home/pi/streaming/hls/live"
+base="/media/workspace/git/ch-storage-client/scripts"
 
 cd $base
 
@@ -11,7 +11,9 @@ rm -rf live live.h264 "$base/live"
 mkdir -p live
 #ln -s "$PWD/live" "$base/live"
 mkfifo live.h264
-raspivid -w 1280 -h 720 -fps 25 -vf -t 86400000 -b 1800000 -o live.h264 &
+#raspivid -w 1280 -h 720 -fps 25 -vf -t 86400000 -b 1800000 -o live.h264 &
+
+#ffmpeg -f video4linux2 -s 320x240 -i /dev/video0 out.mpg
 
 sleep 2
 ffmpeg -y \
