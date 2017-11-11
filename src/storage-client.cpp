@@ -47,16 +47,21 @@
 #include <chrono>
 #include <cstdio>
 
+#include <ch-cpp-utils/utils.hpp>
 #include <glog/logging.h>
 
 #include "storage-client.hpp"
 
 using std::ifstream;
+using std::chrono::system_clock;
 
 using ChCppUtils::mkPath;
 using ChCppUtils::directoryListing;
 using ChCppUtils::fileExpired;
 using ChCppUtils::fileExists;
+using ChCppUtils::getEpochNano;
+using ChCppUtils::getDateTime;
+using ChCppUtils::replace;
 
 namespace SC {
 
@@ -119,6 +124,13 @@ void StorageClient::onTimerEvent(TimerEvent *event) {
 void StorageClient::upload(string name, string ext, string path) {
 	LOG(INFO) << "File to be uploaded: name: " << name << ", path: " << path;
 
+	string targetName = getDateTime() + "-" + std::to_string(getEpochNano()) +
+			"." + ext;
+	std::replace(targetName.begin(), targetName.end(), ' ', '-');
+	std::replace(targetName.begin(), targetName.end(), ':', '-');
+
+	LOG(INFO) << "Will rename to: " << targetName;
+
 	std::ifstream file(path, std::ios::binary | std::ios::ate);
 	std::streamsize size = file.tellg();
 	file.seekg(0, std::ios::beg);
@@ -127,7 +139,7 @@ void StorageClient::upload(string name, string ext, string path) {
 	if (file.read(buffer.data(), size))
 	{
 		LOG(INFO) << "Read " << size << " bytes";
-		string url = uploadPrefix + "/" + name;
+		string url = uploadPrefix + "/" + targetName;
 		LOG(INFO) << "Target URL: " << url;
 		HttpRequest *request = new HttpRequest();
 		request->onLoad(StorageClient::_onLoad).bind(this);

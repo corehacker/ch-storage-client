@@ -101,12 +101,13 @@ static void initCapture() {
 
 	for(auto watch : config->getWatchDirs()) {
 		for(auto file : directoryListing(watch)) {
-			LOG(INFO) << "Deleting file: " << file;
-			if(0 != std::remove(file.data())) {
-				LOG(ERROR) << "File: " << file << " failed to delete";
+			string path = watch + "/" + file;
+			LOG(INFO) << "Deleting file: " << path;
+			if(0 != std::remove(path.data())) {
+				LOG(ERROR) << "File: " << path << " failed to delete";
 				perror("remove");
 			} else {
-				LOG(INFO) << "File: " << file << " Deleted successfully";
+				LOG(INFO) << "File: " << path << " Deleted successfully";
 			}
 		}
 	}
