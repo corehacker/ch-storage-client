@@ -114,11 +114,31 @@ void StorageClient::onLoad(HttpRequestLoadEvent *event) {
 }
 
 void StorageClient::_onTimerEvent(TimerEvent *event, void *this_) {
-
+	StorageClient *server = (StorageClient *) this_;
+	server->onTimerEvent(event);
 }
 
 void StorageClient::onTimerEvent(TimerEvent *event) {
+	LOG(INFO) << "Timer fired!!";
+	for(auto watchDir : mConfig->getWatchDirs()) {
+		LOG(INFO) << "Watch dir: " << watchDir;
+		vector<string> files = directoryListing(watchDir);
+		for(auto file : files) {
+			string path = watchDir + "/" + file;
+			bool markForDelete = fileExpired(path, mConfig->getPurgeTtlSec());
+			LOG(INFO) << "File: " << path << ", Delete? " << markForDelete;
+			if(markForDelete) {
+				if(0 != std::remove(path.data())) {
+					LOG(ERROR) << "File: " << path << ", marked for Delete? failed to delete";
+					perror("remove");
+				} else {
+					LOG(INFO) << "File: " << path << ", marked for Delete? Deleted successfully";
+				}
+			}
+		}
+	}
 
+	mTimer->restart(event);
 }
 
 void StorageClient::upload(string name, string ext, string path) {
