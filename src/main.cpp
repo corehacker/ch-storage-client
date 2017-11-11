@@ -46,9 +46,12 @@
 #include <iostream>
 #include <sys/wait.h>
 #include <glog/logging.h>
+#include <ch-cpp-utils/utils.hpp>
 
 #include "storage-client.hpp"
 #include "camera-capture.hpp"
+
+using ChCppUtils::directoryListing;
 
 using SC::StorageClient;
 using SC::Config;
@@ -95,6 +98,18 @@ static void initEncode() {
 }
 
 static void initCapture() {
+
+	for(auto watch : config->getWatchDirs()) {
+		for(auto file : directoryListing(watch)) {
+			LOG(INFO) << "Deleting file: " << file;
+			if(0 != std::remove(file.data())) {
+				LOG(ERROR) << "File: " << file << " failed to delete";
+				perror("remove");
+			} else {
+				LOG(INFO) << "File: " << file << " Deleted successfully";
+			}
+		}
+	}
 
 	int fifo = mkfifo(config->getPipeFile().data(), S_IWUSR | S_IRUSR | S_IRGRP | S_IROTH);
 	if(fifo < 0) {
