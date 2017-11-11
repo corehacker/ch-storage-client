@@ -49,13 +49,11 @@
 #include <ch-cpp-utils/utils.hpp>
 
 #include "storage-client.hpp"
-#include "camera-capture.hpp"
 
 using ChCppUtils::directoryListing;
 
 using SC::StorageClient;
 using SC::Config;
-using SC::CameraCapture;
 
 static Config *config = nullptr;
 static StorageClient *client = nullptr;
