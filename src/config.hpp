@@ -49,10 +49,8 @@
 #include <ch-cpp-utils/http-request.hpp>
 #include <ch-cpp-utils/timer.hpp>
 
-#include "config.hpp"
-
-#ifndef SRC_STORAGE_CLIENT_HPP_
-#define SRC_STORAGE_CLIENT_HPP_
+#ifndef SRC_CONFIG_HPP_
+#define SRC_CONFIG_HPP_
 
 using std::vector;
 using std::string;
@@ -71,32 +69,64 @@ using ChCppUtils::Http::Client::HttpRequestLoadEvent;
 
 namespace SC {
 
-class StorageClient {
+class Config {
 private:
-	Config *mConfig;
-	vector<Fts *> mFts;
-	vector<FsWatch *> mFsWatch;
-	Timer *mTimer;
-	TimerEvent *mTimerEvent;
-	string uploadPrefix;
+	string etcConfigPath;
+	string localConfigPath;
+	string selectedConfigPath;
 
-	static void _onFile(string name, string ext, string path, void *this_);
-	void onFile(string name, string ext, string path);
+	vector<string> watchDirs;
+	vector<string> filters;
 
-	static void _onLoad(HttpRequestLoadEvent *event, void *this_);
-	void onLoad(HttpRequestLoadEvent *event);
+	string hostname;
+	uint16_t port;
+	string prefix;
+	string name;
 
-	static void _onTimerEvent(TimerEvent *event, void *this_);
-	void onTimerEvent(TimerEvent *event);
+	uint32_t mPurgeTtlSec;
+	uint32_t mPurgeIntervalSec;
 
-	void upload(string name, string ext, string path);
+	bool mCameraEnable;
+	string mPipeFile;
+	vector<string> mCameraCapture;
+	vector<string> mCameraEncode;
+
+	vector<char *> mCameraCaptureChars;
+	vector<char *> mCameraEncodeChars;
+
+	bool mDaemon;
+
+	bool selectConfigFile();
+	bool validateConfigFile();
 public:
-	StorageClient(Config *config);
-	~StorageClient();
-	void start();
+	json mJson;
+
+	Config();
+	~Config();
+	void init();
+
+	vector<string> &getWatchDirs();
+	vector<string> &getFilters();
+	string &getHostname();
+	uint16_t getPort();
+	string &getPrefix();
+	string &getName();
+	uint32_t getPurgeTtlSec();
+	uint32_t getPurgeIntervalSec();
+	bool isCameraEnabled();
+	string &getPipeFile();
+	vector<string> &getCameraCapture();
+	vector<string> &getCameraEncode();
+	vector<char *> &getCameraCaptureChars();
+	vector<char *> &getCameraEncodeChars();
+	bool hasCameraCaptureCharsPtrs();
+	bool hasCameraEncodeCharsPtrs();
+	char **getCameraCaptureCharsPtrs();
+	char **getCameraEncodeCharsPtrs();
+	bool isDaemon();
 };
 
 } // End namespace SC.
 
 
-#endif /* SRC_STORAGE_CLIENT_HPP_ */
+#endif /* SRC_CONFIG_HPP_ */

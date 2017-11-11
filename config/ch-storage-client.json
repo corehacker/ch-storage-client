@@ -1,5 +1,6 @@
 {
     "name": "living-1",
+    "daemon": false,
     "watch": [
         "./data"
     ],
@@ -14,5 +15,32 @@
     "purge": {
         "ttl-s": 60,
         "interval-s": 2
+    },
+    "camera": {
+        "enable": true,
+        "pipe": "fifo.h264",
+        "commands": {
+            "capture": [
+                "raspivid", "-w", "1280", "-h", "720", "-fps", "25", "-vf",
+                "-t", "86400000", "-b", "1800000", "-o", "fifo.h264"
+            ],
+            "encode": [
+                "ffmpeg", "-y",
+                "-i", "fifo.h264",
+                "-f", "s16le", "-i", "/dev/zero", "-r:a", "48000", "-ac", "2",
+                "-c:v", "copy",
+                "-c:a", "aac", "-b:a", "128k",
+                "-map", "0:0", "-map", "1:0",
+                "-f", "segment",
+                "-segment_time", "8",
+                "-segment_format", "mpegts",
+                "-segment_list", "live.m3u8",
+                "-segment_list_size", "720",
+                "-segment_list_flags", "live",
+                "-segment_list_type", "m3u8",
+                "-segment_list_entry_prefix", "live/",
+                "live/%08d.ts"
+            ]
+        }
     }
 }

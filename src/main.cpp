@@ -44,9 +44,13 @@
 #include <signal.h>
 #include <csignal>
 #include <iostream>
+#include <sys/wait.h>
 #include <glog/logging.h>
+#include <ch-cpp-utils/utils.hpp>
 
 #include "storage-client.hpp"
+
+using ChCppUtils::directoryListing;
 
 using SC::StorageClient;
 using SC::Config;
@@ -57,12 +61,105 @@ static StorageClient *client = nullptr;
 static void initEnv();
 static void deinitEnv();
 
+static void initClient();
+static void initEncode();
+static void initCapture();
+
+static void initClient() {
+	client = new StorageClient(config);
+	client->start();
+}
+
+static void initEncode() {
+	pid_t pid = fork();
+	if (pid == -1) {
+		perror("fork");
+		LOG(ERROR) << "Forking encode process failed. Errno: " << errno;
+		exit(1);
+	} else if (pid > 0) {
+		LOG(INFO) << "Forking encode process success. In parent: " << getpid();
+		initClient();
+
+		int status;
+		waitpid(pid, &status, 0);
+		LOG(INFO) << "Encode process exited. In parent: " << getpid();
+	} else {
+		LOG(INFO) << "Forking encode process success. In child: " << getpid();
+		char **args = config->getCameraEncodeCharsPtrs();
+		if (execvp(*args, args) < 0) {     /* execute the command  */
+			perror("execvp-encode");
+			LOG(ERROR) << "Encode process exec failed. In child: " << getpid();
+			exit(1);
+		}
+		LOG(INFO) << "Encode process exiting. In child: " << getpid();
+	}
+}
+
+static void initCapture() {
+
+	for(auto watch : config->getWatchDirs()) {
+		for(auto file : directoryListing(watch)) {
+			string path = watch + "/" + file;
+			LOG(INFO) << "Deleting file: " << path;
+			if(0 != std::remove(path.data())) {
+				LOG(ERROR) << "File: " << path << " failed to delete";
+				perror("remove");
+			} else {
+				LOG(INFO) << "File: " << path << " Deleted successfully";
+			}
+		}
+	}
+
+	int fifo = mkfifo(config->getPipeFile().data(), S_IWUSR | S_IRUSR | S_IRGRP | S_IROTH);
+	if(fifo < 0) {
+		if(EEXIST != errno) {
+			perror("mkfifo");
+			LOG(ERROR) << "Creating fifo file " << config->getPipeFile() <<
+					" failed. Errno: " << errno;
+			exit(1);
+		} else {
+			LOG(ERROR) << "Fifo file " << config->getPipeFile() <<
+				" already exists.";
+		}
+	}
+	LOG(ERROR) << "Creating fifo file " << config->getPipeFile() <<
+			" success.";
+
+	pid_t pid = fork();
+	if (pid == -1) {
+		perror("fork");
+		LOG(ERROR) << "Forking capture process failed. Errno: " << errno;
+		exit(1);
+	} else if (pid > 0) {
+		LOG(INFO) << "Forking capture process success. In parent: " << getpid();
+		int status;
+
+		initEncode();
+
+		waitpid(pid, &status, 0);
+		LOG(INFO) << "Capture process exited. In parent: " << getpid();
+	} else {
+		LOG(INFO) << "Forking capture process success. In child: " << getpid();
+		char **args = config->getCameraCaptureCharsPtrs();
+		if (execvp(*args, args) < 0) {     /* execute the command  */
+			perror("execvp-capture");
+			LOG(ERROR) << "Capture process exec failed. In child: " << getpid();
+			exit(1);
+		}
+		LOG(INFO) << "Capture process exiting. In child: " << getpid();
+	}
+}
+
 static void initEnv() {
 	config = new Config();
 	config->init();
 
-	client = new StorageClient(config);
-	client->start();
+	if (config->isCameraEnabled() && config->hasCameraCaptureCharsPtrs()
+			&& config->hasCameraEncodeCharsPtrs()) {
+		initCapture();
+	} else {
+		initClient();
+	}
 }
 
 static void deinitEnv() {
