@@ -93,6 +93,14 @@ StorageClient::StorageClient(Config *config) {
 }
 
 StorageClient::~StorageClient() {
+	for(auto fts : mFts) {
+		delete fts;
+	}
+	for(auto watch : mFsWatch) {
+		delete watch;
+	}
+	mTimer->destroy(mTimerEvent);
+	delete mTimer;
 }
 
 void StorageClient::_onFile(string name, string ext, string path, void *this_) {

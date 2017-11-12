@@ -96,6 +96,8 @@ private:
 
 	bool mDaemon;
 
+	uint32_t mRunFor;
+
 	bool selectConfigFile();
 	bool validateConfigFile();
 public:
@@ -124,6 +126,7 @@ public:
 	char **getCameraCaptureCharsPtrs();
 	char **getCameraEncodeCharsPtrs();
 	bool isDaemon();
+	uint32_t getRunFor();
 };
 
 } // End namespace SC.

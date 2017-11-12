@@ -175,7 +175,7 @@ static void deinitEnv() {
 int main(int argc, char **argv) {
 	initEnv();
 
-	THREAD_SLEEP_FOREVER;
+	THREAD_SLEEP(config->getRunFor());
 
 	deinitEnv();
 
