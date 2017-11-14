@@ -74,6 +74,8 @@ Config::Config() {
 	mCameraEnable = false;
 
 	mDaemon = false;
+
+	mRunFor = 30000;
 }
 
 Config::~Config() {
@@ -160,6 +162,13 @@ bool Config::validateConfigFile() {
 	}
 
 	mDaemon = mJson["daemon"];
+	LOG(INFO) << "daemon: " << mDaemon;
+
+	mLogToConsole = mJson["console"];
+	LOG(INFO) << "console: " << mLogToConsole;
+
+	mRunFor = mJson["run-for"];
+	LOG(INFO) << "run-for: " << mRunFor;
 
 	LOG(INFO) << "----------------------->Config";
 	return true;
@@ -253,6 +262,14 @@ char **Config::getCameraEncodeCharsPtrs() {
 
 bool Config::isDaemon() {
 	return mDaemon;
+}
+
+uint32_t Config::getRunFor() {
+	return mRunFor;
+}
+
+bool Config::shouldLogToConsole() {
+	return mLogToConsole;
 }
 
 } // End namespace SS.

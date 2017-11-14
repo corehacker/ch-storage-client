@@ -45,6 +45,7 @@
 #include <csignal>
 #include <iostream>
 #include <sys/wait.h>
+#include <event2/event.h>
 #include <glog/logging.h>
 #include <ch-cpp-utils/utils.hpp>
 
@@ -154,6 +155,14 @@ static void initEnv() {
 	config = new Config();
 	config->init();
 
+	// Initialize Google's logging library.
+	if(config->shouldLogToConsole()) {
+		LOG(INFO) << "LOGGING to console.";
+	} else {
+		LOG(INFO) << "Not LOGGING to console.";
+		google::InitGoogleLogging("ch-storage-server");
+	}
+
 	if (config->isCameraEnabled() && config->hasCameraCaptureCharsPtrs()
 			&& config->hasCameraEncodeCharsPtrs()) {
 		initCapture();
@@ -175,7 +184,7 @@ static void deinitEnv() {
 int main(int argc, char **argv) {
 	initEnv();
 
-	THREAD_SLEEP_FOREVER;
+	THREAD_SLEEP(config->getRunFor());
 
 	deinitEnv();
 

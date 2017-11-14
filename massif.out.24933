@@ -1,0 +1,940 @@
+desc: (none)
+cmd: ./src/ch-storage-client
+time_unit: i
+#-----------
+snapshot=0
+#-----------
+time=0
+mem_heap_B=0
+mem_heap_extra_B=0
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=1
+#-----------
+time=3164948
+mem_heap_B=72704
+mem_heap_extra_B=8
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=2
+#-----------
+time=3346650
+mem_heap_B=72769
+mem_heap_extra_B=31
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=3
+#-----------
+time=3431875
+mem_heap_B=76233
+mem_heap_extra_B=191
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=4
+#-----------
+time=3496377
+mem_heap_B=87738
+mem_heap_extra_B=678
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=5
+#-----------
+time=3571468
+mem_heap_B=90124
+mem_heap_extra_B=1076
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=6
+#-----------
+time=3633584
+mem_heap_B=90188
+mem_heap_extra_B=1092
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=7
+#-----------
+time=3711635
+mem_heap_B=120715
+mem_heap_extra_B=1125
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=8
+#-----------
+time=3765957
+mem_heap_B=83025
+mem_heap_extra_B=1231
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=9
+#-----------
+time=3831076
+mem_heap_B=145441
+mem_heap_extra_B=1351
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=10
+#-----------
+time=3929272
+mem_heap_B=115409
+mem_heap_extra_B=1487
+mem_stacks_B=0
+heap_tree=detailed
+n7: 115409 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 72704 0x553D304: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.24)
+  n1: 72704 0x4010A68: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x4010B79: _dl_init (dl-init.c:30)
+    n0: 72704 0x4000ED8: ??? (in /lib/x86_64-linux-gnu/ld-2.26.so)
+ n1: 30504 0x506D6B0: google::LogMessage::Init(char const*, int, int, void (google::LogMessage::*)()) (logging.cc:1201)
+  n2: 30504 0x506DDFA: google::LogMessage::LogMessage(char const*, int) (logging.cc:1165)
+   n1: 30504 0x4E48BC0: ChCppUtils::ThreadPool::threadGetNextJob_() (thread-pool.cpp:116)
+    n1: 30504 0x4E47650: ChCppUtils::Thread::run() (thread.cpp:80)
+     n1: 30504 0x4E47A5E: ChCppUtils::Thread::threadFunc(void*) (thread.cpp:55)
+      n1: 30504 0x556D0FD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.24)
+       n1: 30504 0x52997FA: start_thread (pthread_create.c:465)
+        n0: 30504 0x5B62B0D: clone (clone.S:95)
+   n0: 0 in 24 places, all below massif's threshold (1.00%)
+ n0: 5746 in 47 places, all below massif's threshold (1.00%)
+ n2: 1888 0x119027: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (new_allocator.h:111)
+  n1: 1760 0x118E31: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11518)
+   n2: 1760 0x11A20D: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11462)
+    n1: 1696 0x11A20D: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11462)
+     n1: 1696 0x11A20D: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11462)
+      n1: 1696 0x1127DB: SC::Config::init() (json.hpp:11384)
+       n0: 1696 0x10B928: main (main.cpp:156)
+    n0: 64 in 1 place, below massif's threshold (1.00%)
+  n0: 128 in 1 place, below massif's threshold (1.00%)
+ n1: 1815 0x5B17F0B: __tzfile_read (tzfile.c:279)
+  n1: 1815 0x5B17A3F: __tz_convert (tzset.c:407)
+   n1: 1815 0x506D74E: google::LogMessage::Init(char const*, int, int, void (google::LogMessage::*)()) (logging.cc:1225)
+    n1: 1815 0x506DDFA: google::LogMessage::LogMessage(char const*, int) (logging.cc:1165)
+     n1: 1815 0x10F7C2: SC::Config::selectConfigFile() (config.cpp:94)
+      n1: 1815 0x11253A: SC::Config::init() (config.cpp:175)
+       n0: 1815 0x10B928: main (main.cpp:156)
+ n1: 1440 0x11A3BB: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (new_allocator.h:111)
+  n0: 1440 in 2 places, all below massif's threshold (1.00%)
+ n1: 1312 0x117122: void std::vector<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>, std::allocator<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer> > >::_M_realloc_insert<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer> >(__gnu_cxx::__normal_iterator<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>*, std::vector<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>, std::allocator<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer> > > >, nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>&&) (new_allocator.h:111)
+  n1: 1312 0x11A516: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (vector.tcc:105)
+   n2: 1312 0x11A20D: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11462)
+    n1: 1280 0x11A20D: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11462)
+     n1: 1280 0x11A20D: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11462)
+      n1: 1280 0x1127DB: SC::Config::init() (json.hpp:11384)
+       n0: 1280 0x10B928: main (main.cpp:156)
+    n0: 32 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=11
+#-----------
+time=4006442
+mem_heap_B=147193
+mem_heap_extra_B=1583
+mem_stacks_B=0
+heap_tree=detailed
+n5: 147193 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 72704 0x553D304: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.24)
+  n1: 72704 0x4010A68: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x4010B79: _dl_init (dl-init.c:30)
+    n0: 72704 0x4000ED8: ??? (in /lib/x86_64-linux-gnu/ld-2.26.so)
+ n1: 61008 0x506D6B0: google::LogMessage::Init(char const*, int, int, void (google::LogMessage::*)()) (logging.cc:1201)
+  n3: 61008 0x506DDFA: google::LogMessage::LogMessage(char const*, int) (logging.cc:1165)
+   n1: 30504 0x4E4B137: ChCppUtils::FsWatch::addWatch(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool) (fs-watch.cpp:121)
+    n1: 30504 0x4E4BACA: ChCppUtils::FsWatch::init() (fs-watch.cpp:303)
+     n1: 30504 0x10E06C: SC::StorageClient::start() (storage-client.cpp:207)
+      n0: 30504 0x10B951: main (main.cpp:162)
+   n1: 30504 0x4E57C2A: ChCppUtils::Timer::_timerRoutine(void*, event_base*) (timer.cpp:110)
+    n1: 30504 0x4E47438: ChCppUtils::Thread::runJob(ChCppUtils::ThreadJobBase*) (thread.cpp:111)
+     n1: 30504 0x4E47649: ChCppUtils::Thread::run() (thread.cpp:86)
+      n1: 30504 0x4E47A5E: ChCppUtils::Thread::threadFunc(void*) (thread.cpp:55)
+       n1: 30504 0x556D0FD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.24)
+        n1: 30504 0x52997FA: start_thread (pthread_create.c:465)
+         n0: 30504 0x5B62B0D: clone (clone.S:95)
+   n0: 0 in 28 places, all below massif's threshold (1.00%)
+ n0: 9778 in 51 places, all below massif's threshold (1.00%)
+ n2: 1888 0x119027: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (new_allocator.h:111)
+  n1: 1760 0x118E31: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11518)
+   n2: 1760 0x11A20D: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11462)
+    n1: 1696 0x11A20D: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11462)
+     n1: 1696 0x11A20D: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11462)
+      n1: 1696 0x1127DB: SC::Config::init() (json.hpp:11384)
+       n0: 1696 0x10B928: main (main.cpp:156)
+    n0: 64 in 1 place, below massif's threshold (1.00%)
+  n0: 128 in 1 place, below massif's threshold (1.00%)
+ n1: 1815 0x5B17F0B: __tzfile_read (tzfile.c:279)
+  n1: 1815 0x5B17A3F: __tz_convert (tzset.c:407)
+   n1: 1815 0x506D74E: google::LogMessage::Init(char const*, int, int, void (google::LogMessage::*)()) (logging.cc:1225)
+    n1: 1815 0x506DDFA: google::LogMessage::LogMessage(char const*, int) (logging.cc:1165)
+     n1: 1815 0x10F7C2: SC::Config::selectConfigFile() (config.cpp:94)
+      n1: 1815 0x11253A: SC::Config::init() (config.cpp:175)
+       n0: 1815 0x10B928: main (main.cpp:156)
+#-----------
+snapshot=12
+#-----------
+time=4075582
+mem_heap_B=87737
+mem_heap_extra_B=1663
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=13
+#-----------
+time=4115618
+mem_heap_B=123333
+mem_heap_extra_B=1787
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=14
+#-----------
+time=4208508
+mem_heap_B=87846
+mem_heap_extra_B=1730
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=15
+#-----------
+time=4273021
+mem_heap_B=184483
+mem_heap_extra_B=1941
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=16
+#-----------
+time=4368689
+mem_heap_B=158232
+mem_heap_extra_B=2288
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=17
+#-----------
+time=4455035
+mem_heap_B=227347
+mem_heap_extra_B=3125
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=18
+#-----------
+time=4508226
+mem_heap_B=258299
+mem_heap_extra_B=3181
+mem_stacks_B=0
+heap_tree=peak
+n6: 258299 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 72704 0x553D304: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.24)
+  n1: 72704 0x4010A68: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x4010B79: _dl_init (dl-init.c:30)
+    n0: 72704 0x4000ED8: ??? (in /lib/x86_64-linux-gnu/ld-2.26.so)
+ n1: 65536 0x5E3A039: ??? (in /usr/lib/x86_64-linux-gnu/libevent-2.1.so.6.0.2)
+  n1: 65536 0x5E3CF8B: evbuffer_add (in /usr/lib/x86_64-linux-gnu/libevent-2.1.so.6.0.2)
+   n1: 65536 0x4E538D8: ChCppUtils::Http::Client::HttpRequest::send(void*, unsigned long) (http-request.cpp:233)
+    n1: 65536 0x10D432: SC::StorageClient::upload(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) (storage-client.cpp:201)
+     n1: 65536 0x10D7E5: SC::StorageClient::onFile(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) (storage-client.cpp:132)
+      n1: 65536 0x10D938: SC::StorageClient::_onFile(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, void*) (storage-client.cpp:128)
+       n1: 65536 0x4E4A602: ChCppUtils::FsWatch::handleFileModify(int, inotify_event const*) (fs-watch.cpp:179)
+        n1: 65536 0x4E4B522: ChCppUtils::FsWatch::handleActivity(int) (fs-watch.cpp:243)
+         n1: 65536 0x4E4B6FF: ChCppUtils::FsWatch::epollThreadRoutine() (fs-watch.cpp:275)
+          n1: 65536 0x4E47438: ChCppUtils::Thread::runJob(ChCppUtils::ThreadJobBase*) (thread.cpp:111)
+           n1: 65536 0x4E47649: ChCppUtils::Thread::run() (thread.cpp:86)
+            n1: 65536 0x4E47A5E: ChCppUtils::Thread::threadFunc(void*) (thread.cpp:55)
+             n1: 65536 0x556D0FD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.24)
+              n1: 65536 0x52997FA: start_thread (pthread_create.c:465)
+               n0: 65536 0x5B62B0D: clone (clone.S:95)
+ n1: 56776 0x10D476: SC::StorageClient::upload(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) (new_allocator.h:111)
+  n1: 56776 0x10D7E5: SC::StorageClient::onFile(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) (storage-client.cpp:132)
+   n1: 56776 0x10D938: SC::StorageClient::_onFile(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, void*) (storage-client.cpp:128)
+    n1: 56776 0x4E4A602: ChCppUtils::FsWatch::handleFileModify(int, inotify_event const*) (fs-watch.cpp:179)
+     n1: 56776 0x4E4B522: ChCppUtils::FsWatch::handleActivity(int) (fs-watch.cpp:243)
+      n1: 56776 0x4E4B6FF: ChCppUtils::FsWatch::epollThreadRoutine() (fs-watch.cpp:275)
+       n1: 56776 0x4E47438: ChCppUtils::Thread::runJob(ChCppUtils::ThreadJobBase*) (thread.cpp:111)
+        n1: 56776 0x4E47649: ChCppUtils::Thread::run() (thread.cpp:86)
+         n1: 56776 0x4E47A5E: ChCppUtils::Thread::threadFunc(void*) (thread.cpp:55)
+          n1: 56776 0x556D0FD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.24)
+           n1: 56776 0x52997FA: start_thread (pthread_create.c:465)
+            n0: 56776 0x5B62B0D: clone (clone.S:95)
+ n1: 30504 0x506D6B0: google::LogMessage::Init(char const*, int, int, void (google::LogMessage::*)()) (logging.cc:1201)
+  n2: 30504 0x506DDFA: google::LogMessage::LogMessage(char const*, int) (logging.cc:1165)
+   n2: 30504 0x4E487DB: ChCppUtils::ThreadPool::addJob(ChCppUtils::ThreadJobBase*) (thread-pool.cpp:102)
+    n1: 30504 0x4E53808: ChCppUtils::Http::Client::HttpRequest::send(unsigned long) (http-request.cpp:223)
+     n1: 30504 0x10D432: SC::StorageClient::upload(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) (storage-client.cpp:201)
+      n1: 30504 0x10D7E5: SC::StorageClient::onFile(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) (storage-client.cpp:132)
+       n1: 30504 0x10D938: SC::StorageClient::_onFile(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, void*) (storage-client.cpp:128)
+        n1: 30504 0x4E4A602: ChCppUtils::FsWatch::handleFileModify(int, inotify_event const*) (fs-watch.cpp:179)
+         n1: 30504 0x4E4B522: ChCppUtils::FsWatch::handleActivity(int) (fs-watch.cpp:243)
+          n1: 30504 0x4E4B6FF: ChCppUtils::FsWatch::epollThreadRoutine() (fs-watch.cpp:275)
+           n1: 30504 0x4E47438: ChCppUtils::Thread::runJob(ChCppUtils::ThreadJobBase*) (thread.cpp:111)
+            n1: 30504 0x4E47649: ChCppUtils::Thread::run() (thread.cpp:86)
+             n1: 30504 0x4E47A5E: ChCppUtils::Thread::threadFunc(void*) (thread.cpp:55)
+              n1: 30504 0x556D0FD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.24)
+               n1: 30504 0x52997FA: start_thread (pthread_create.c:465)
+                n0: 30504 0x5B62B0D: clone (clone.S:95)
+    n0: 0 in 3 places, all below massif's threshold (1.00%)
+   n0: 0 in 49 places, all below massif's threshold (1.00%)
+ n0: 24587 in 109 places, all below massif's threshold (1.00%)
+ n1: 8192 0x55A19D6: std::basic_filebuf<char, std::char_traits<char> >::_M_allocate_internal_buffer() (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.24)
+  n2: 8192 0x55A5BC0: std::basic_filebuf<char, std::char_traits<char> >::open(char const*, std::_Ios_Openmode) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.24)
+   n1: 8192 0x10D0BE: SC::StorageClient::upload(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) (fstream:308)
+    n1: 8192 0x10D7E5: SC::StorageClient::onFile(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) (storage-client.cpp:132)
+     n1: 8192 0x10D938: SC::StorageClient::_onFile(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, void*) (storage-client.cpp:128)
+      n1: 8192 0x4E4A602: ChCppUtils::FsWatch::handleFileModify(int, inotify_event const*) (fs-watch.cpp:179)
+       n1: 8192 0x4E4B522: ChCppUtils::FsWatch::handleActivity(int) (fs-watch.cpp:243)
+        n1: 8192 0x4E4B6FF: ChCppUtils::FsWatch::epollThreadRoutine() (fs-watch.cpp:275)
+         n1: 8192 0x4E47438: ChCppUtils::Thread::runJob(ChCppUtils::ThreadJobBase*) (thread.cpp:111)
+          n1: 8192 0x4E47649: ChCppUtils::Thread::run() (thread.cpp:86)
+           n1: 8192 0x4E47A5E: ChCppUtils::Thread::threadFunc(void*) (thread.cpp:55)
+            n1: 8192 0x556D0FD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.24)
+             n1: 8192 0x52997FA: start_thread (pthread_create.c:465)
+              n0: 8192 0x5B62B0D: clone (clone.S:95)
+   n0: 0 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=19
+#-----------
+time=4559039
+mem_heap_B=97692
+mem_heap_extra_B=3220
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=20
+#-----------
+time=4642475
+mem_heap_B=95379
+mem_heap_extra_B=2821
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=21
+#-----------
+time=4720522
+mem_heap_B=95379
+mem_heap_extra_B=2821
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=22
+#-----------
+time=4783308
+mem_heap_B=95379
+mem_heap_extra_B=2821
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=23
+#-----------
+time=4830553
+mem_heap_B=160954
+mem_heap_extra_B=2878
+mem_stacks_B=0
+heap_tree=detailed
+n6: 160954 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 72704 0x553D304: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.24)
+  n1: 72704 0x4010A68: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x4010B79: _dl_init (dl-init.c:30)
+    n0: 72704 0x4000ED8: ??? (in /lib/x86_64-linux-gnu/ld-2.26.so)
+ n1: 56776 0x10D476: SC::StorageClient::upload(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) (new_allocator.h:111)
+  n1: 56776 0x10D7E5: SC::StorageClient::onFile(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) (storage-client.cpp:132)
+   n1: 56776 0x10D938: SC::StorageClient::_onFile(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, void*) (storage-client.cpp:128)
+    n1: 56776 0x4E4A602: ChCppUtils::FsWatch::handleFileModify(int, inotify_event const*) (fs-watch.cpp:179)
+     n1: 56776 0x4E4B522: ChCppUtils::FsWatch::handleActivity(int) (fs-watch.cpp:243)
+      n1: 56776 0x4E4B6FF: ChCppUtils::FsWatch::epollThreadRoutine() (fs-watch.cpp:275)
+       n1: 56776 0x4E47438: ChCppUtils::Thread::runJob(ChCppUtils::ThreadJobBase*) (thread.cpp:111)
+        n1: 56776 0x4E47649: ChCppUtils::Thread::run() (thread.cpp:86)
+         n1: 56776 0x4E47A5E: ChCppUtils::Thread::threadFunc(void*) (thread.cpp:55)
+          n1: 56776 0x556D0FD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.24)
+           n1: 56776 0x52997FA: start_thread (pthread_create.c:465)
+            n0: 56776 0x5B62B0D: clone (clone.S:95)
+ n0: 19579 in 114 places, all below massif's threshold (1.00%)
+ n1: 8192 0x55A19D6: std::basic_filebuf<char, std::char_traits<char> >::_M_allocate_internal_buffer() (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.24)
+  n2: 8192 0x55A5BC0: std::basic_filebuf<char, std::char_traits<char> >::open(char const*, std::_Ios_Openmode) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.24)
+   n1: 8192 0x10D0BE: SC::StorageClient::upload(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) (fstream:308)
+    n1: 8192 0x10D7E5: SC::StorageClient::onFile(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) (storage-client.cpp:132)
+     n1: 8192 0x10D938: SC::StorageClient::_onFile(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, void*) (storage-client.cpp:128)
+      n1: 8192 0x4E4A602: ChCppUtils::FsWatch::handleFileModify(int, inotify_event const*) (fs-watch.cpp:179)
+       n1: 8192 0x4E4B522: ChCppUtils::FsWatch::handleActivity(int) (fs-watch.cpp:243)
+        n1: 8192 0x4E4B6FF: ChCppUtils::FsWatch::epollThreadRoutine() (fs-watch.cpp:275)
+         n1: 8192 0x4E47438: ChCppUtils::Thread::runJob(ChCppUtils::ThreadJobBase*) (thread.cpp:111)
+          n1: 8192 0x4E47649: ChCppUtils::Thread::run() (thread.cpp:86)
+           n1: 8192 0x4E47A5E: ChCppUtils::Thread::threadFunc(void*) (thread.cpp:55)
+            n1: 8192 0x556D0FD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.24)
+             n1: 8192 0x52997FA: start_thread (pthread_create.c:465)
+              n0: 8192 0x5B62B0D: clone (clone.S:95)
+   n0: 0 in 1 place, below massif's threshold (1.00%)
+ n2: 1888 0x119027: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (new_allocator.h:111)
+  n1: 1760 0x118E31: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11518)
+   n2: 1760 0x11A20D: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11462)
+    n1: 1696 0x11A20D: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11462)
+     n1: 1696 0x11A20D: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11462)
+      n1: 1696 0x1127DB: SC::Config::init() (json.hpp:11384)
+       n0: 1696 0x10B928: main (main.cpp:156)
+    n0: 64 in 1 place, below massif's threshold (1.00%)
+  n0: 128 in 1 place, below massif's threshold (1.00%)
+ n1: 1815 0x5B17F0B: __tzfile_read (tzfile.c:279)
+  n1: 1815 0x5B17A3F: __tz_convert (tzset.c:407)
+   n1: 1815 0x506D74E: google::LogMessage::Init(char const*, int, int, void (google::LogMessage::*)()) (logging.cc:1225)
+    n1: 1815 0x506DDFA: google::LogMessage::LogMessage(char const*, int) (logging.cc:1165)
+     n1: 1815 0x10F7C2: SC::Config::selectConfigFile() (config.cpp:94)
+      n1: 1815 0x11253A: SC::Config::init() (config.cpp:175)
+       n0: 1815 0x10B928: main (main.cpp:156)
+#-----------
+snapshot=24
+#-----------
+time=4901790
+mem_heap_B=227736
+mem_heap_extra_B=3192
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=25
+#-----------
+time=4982011
+mem_heap_B=95403
+mem_heap_extra_B=2821
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=26
+#-----------
+time=5078814
+mem_heap_B=95467
+mem_heap_extra_B=2829
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=27
+#-----------
+time=5142720
+mem_heap_B=95467
+mem_heap_extra_B=2829
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=28
+#-----------
+time=5222051
+mem_heap_B=160978
+mem_heap_extra_B=2894
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=29
+#-----------
+time=5309262
+mem_heap_B=228891
+mem_heap_extra_B=3253
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=30
+#-----------
+time=5375031
+mem_heap_B=95427
+mem_heap_extra_B=2853
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=31
+#-----------
+time=5472865
+mem_heap_B=95555
+mem_heap_extra_B=2877
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=32
+#-----------
+time=5569373
+mem_heap_B=95555
+mem_heap_extra_B=2877
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=33
+#-----------
+time=5632421
+mem_heap_B=95555
+mem_heap_extra_B=2877
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=34
+#-----------
+time=5728320
+mem_heap_B=95555
+mem_heap_extra_B=2877
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=35
+#-----------
+time=5791729
+mem_heap_B=95555
+mem_heap_extra_B=2877
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=36
+#-----------
+time=5887305
+mem_heap_B=95555
+mem_heap_extra_B=2877
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=37
+#-----------
+time=5950822
+mem_heap_B=95555
+mem_heap_extra_B=2877
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=38
+#-----------
+time=6046641
+mem_heap_B=95555
+mem_heap_extra_B=2877
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=39
+#-----------
+time=6109689
+mem_heap_B=95555
+mem_heap_extra_B=2877
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=40
+#-----------
+time=6205295
+mem_heap_B=95555
+mem_heap_extra_B=2877
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=41
+#-----------
+time=6268439
+mem_heap_B=95555
+mem_heap_extra_B=2877
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=42
+#-----------
+time=6364115
+mem_heap_B=95555
+mem_heap_extra_B=2877
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=43
+#-----------
+time=6427189
+mem_heap_B=95555
+mem_heap_extra_B=2877
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=44
+#-----------
+time=6522468
+mem_heap_B=95555
+mem_heap_extra_B=2877
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=45
+#-----------
+time=6585831
+mem_heap_B=95555
+mem_heap_extra_B=2877
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=46
+#-----------
+time=6681325
+mem_heap_B=95555
+mem_heap_extra_B=2877
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=47
+#-----------
+time=6744766
+mem_heap_B=95555
+mem_heap_extra_B=2877
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=48
+#-----------
+time=6840767
+mem_heap_B=95555
+mem_heap_extra_B=2877
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=49
+#-----------
+time=6904037
+mem_heap_B=95555
+mem_heap_extra_B=2877
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=50
+#-----------
+time=6950941
+mem_heap_B=95427
+mem_heap_extra_B=2853
+mem_stacks_B=0
+heap_tree=detailed
+n11: 95427 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 72704 0x553D304: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.24)
+  n1: 72704 0x4010A68: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x4010B79: _dl_init (dl-init.c:30)
+    n0: 72704 0x4000ED8: ??? (in /lib/x86_64-linux-gnu/ld-2.26.so)
+ n0: 10154 in 109 places, all below massif's threshold (1.00%)
+ n2: 1888 0x119027: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (new_allocator.h:111)
+  n1: 1760 0x118E31: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11518)
+   n2: 1760 0x11A20D: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11462)
+    n1: 1696 0x11A20D: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11462)
+     n1: 1696 0x11A20D: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11462)
+      n1: 1696 0x1127DB: SC::Config::init() (json.hpp:11384)
+       n0: 1696 0x10B928: main (main.cpp:156)
+    n0: 64 in 1 place, below massif's threshold (1.00%)
+  n0: 128 in 1 place, below massif's threshold (1.00%)
+ n1: 1815 0x5B17F0B: __tzfile_read (tzfile.c:279)
+  n1: 1815 0x5B17A3F: __tz_convert (tzset.c:407)
+   n1: 1815 0x506D74E: google::LogMessage::Init(char const*, int, int, void (google::LogMessage::*)()) (logging.cc:1225)
+    n1: 1815 0x506DDFA: google::LogMessage::LogMessage(char const*, int) (logging.cc:1165)
+     n1: 1815 0x10F7C2: SC::Config::selectConfigFile() (config.cpp:94)
+      n1: 1815 0x11253A: SC::Config::init() (config.cpp:175)
+       n0: 1815 0x10B928: main (main.cpp:156)
+ n1: 1536 0x4E49408: std::_Deque_base<ChCppUtils::ThreadJobBase*, std::allocator<ChCppUtils::ThreadJobBase*> >::_M_initialize_map(unsigned long) (new_allocator.h:111)
+  n1: 1536 0x4E4917B: ChCppUtils::ThreadPool::ThreadPool(unsigned int, bool) (stl_deque.h:492)
+   n0: 1536 in 3 places, all below massif's threshold (1.00%)
+ n1: 1440 0x11A3BB: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (new_allocator.h:111)
+  n0: 1440 in 2 places, all below massif's threshold (1.00%)
+ n1: 1328 0x5E4F1C8: event_base_new_with_config (in /usr/lib/x86_64-linux-gnu/libevent-2.1.so.6.0.2)
+  n1: 1328 0x5E4F649: event_base_new (in /usr/lib/x86_64-linux-gnu/libevent-2.1.so.6.0.2)
+   n0: 1328 in 2 places, all below massif's threshold (1.00%)
+ n1: 1312 0x117122: void std::vector<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>, std::allocator<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer> > >::_M_realloc_insert<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer> >(__gnu_cxx::__normal_iterator<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>*, std::vector<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>, std::allocator<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer> > > >, nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>&&) (new_allocator.h:111)
+  n1: 1312 0x11A516: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (vector.tcc:105)
+   n2: 1312 0x11A20D: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11462)
+    n1: 1280 0x11A20D: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11462)
+     n1: 1280 0x11A20D: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11462)
+      n1: 1280 0x1127DB: SC::Config::init() (json.hpp:11384)
+       n0: 1280 0x10B928: main (main.cpp:156)
+    n0: 32 in 1 place, below massif's threshold (1.00%)
+ n1: 1186 0x400C054: _dl_new_object (dl-object.c:75)
+  n1: 1186 0x40068C3: _dl_map_object_from_fd (dl-load.c:1006)
+   n1: 1186 0x4008F13: _dl_map_object (dl-load.c:2436)
+    n1: 1186 0x40158C9: dl_open_worker (dl-open.c:237)
+     n1: 1186 0x5BA6D62: _dl_catch_error (dl-error-skeleton.c:198)
+      n1: 1186 0x40150D7: _dl_open (dl-open.c:660)
+       n1: 1186 0x5BA62CB: do_dlopen (dl-libc.c:87)
+        n1: 1186 0x5BA6D62: _dl_catch_error (dl-error-skeleton.c:198)
+         n1: 1186 0x5BA638A: __libc_dlopen_mode (dl-libc.c:46)
+          n1: 1186 0x5B896A4: nss_load_library (nsswitch.c:358)
+           n1: 1186 0x5B89E86: __nss_lookup_function (nsswitch.c:466)
+            n1: 1186 0x5B4756C: gaih_inet.constprop.7 (getaddrinfo.c:784)
+             n1: 1186 0x5B495C5: getaddrinfo (getaddrinfo.c:2304)
+              n1: 1186 0x5E5415D: evutil_getaddrinfo (in /usr/lib/x86_64-linux-gnu/libevent-2.1.so.6.0.2)
+               n1: 1186 0x5E5447D: evutil_getaddrinfo_async_ (in /usr/lib/x86_64-linux-gnu/libevent-2.1.so.6.0.2)
+                n1: 1186 0x5E4827C: bufferevent_socket_connect_hostname (in /usr/lib/x86_64-linux-gnu/libevent-2.1.so.6.0.2)
+                 n1: 1186 0x5E67D03: evhttp_connection_connect_ (in /usr/lib/x86_64-linux-gnu/libevent-2.1.so.6.0.2)
+                  n1: 1186 0x5E68C97: evhttp_make_request (in /usr/lib/x86_64-linux-gnu/libevent-2.1.so.6.0.2)
+                   n1: 1186 0x4E53800: ChCppUtils::Http::Client::HttpRequest::send(unsigned long) (http-request.cpp:220)
+                    n1: 1186 0x10D432: SC::StorageClient::upload(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) (storage-client.cpp:201)
+                     n1: 1186 0x10D7E5: SC::StorageClient::onFile(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) (storage-client.cpp:132)
+                      n1: 1186 0x10D938: SC::StorageClient::_onFile(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, void*) (storage-client.cpp:128)
+                       n1: 1186 0x4E4A602: ChCppUtils::FsWatch::handleFileModify(int, inotify_event const*) (fs-watch.cpp:179)
+                        n1: 1186 0x4E4B522: ChCppUtils::FsWatch::handleActivity(int) (fs-watch.cpp:243)
+                         n1: 1186 0x4E4B6FF: ChCppUtils::FsWatch::epollThreadRoutine() (fs-watch.cpp:275)
+                          n1: 1186 0x4E47438: ChCppUtils::Thread::runJob(ChCppUtils::ThreadJobBase*) (thread.cpp:111)
+                           n1: 1186 0x4E47649: ChCppUtils::Thread::run() (thread.cpp:86)
+                            n1: 1186 0x4E47A5E: ChCppUtils::Thread::threadFunc(void*) (thread.cpp:55)
+                             n1: 1186 0x556D0FD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.24)
+                              n0: 1186 0x52997FA: start_thread (pthread_create.c:465)
+ n1: 1040 0x5A8A0BE: __new_exitfn (cxa_atexit.c:101)
+  n1: 1040 0x5A8A167: __cxa_atexit (cxa_atexit.c:35)
+   n1: 1040 0x4010A68: call_init.part.0 (dl-init.c:72)
+    n1: 1040 0x4010B79: _dl_init (dl-init.c:30)
+     n0: 1040 0x4000ED8: ??? (in /lib/x86_64-linux-gnu/ld-2.26.so)
+ n1: 1024 0x5AC3E0A: _IO_file_doallocate (filedoalloc.c:101)
+  n2: 1024 0x5AD3BC4: _IO_doallocbuf (genops.c:398)
+   n1: 1024 0x5AD2D36: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:812)
+    n1: 1024 0x5AD13BB: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1323)
+     n1: 1024 0x5AA3582: vfprintf (vfprintf.c:1643)
+      n1: 1024 0x5B72DAA: __printf_chk (printf_chk.c:35)
+       n1: 1024 0x4E4D5DA: ChCppUtils::DirTree::print(ChCppUtils::Node*, unsigned int) (stdio2.h:104)
+        n1: 1024 0x4E4D641: ChCppUtils::DirTree::print() (dirtree.cpp:253)
+         n1: 1024 0x4E4B123: ChCppUtils::FsWatch::addWatch(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool) (fs-watch.cpp:119)
+          n1: 1024 0x4E4BACA: ChCppUtils::FsWatch::init() (fs-watch.cpp:303)
+           n1: 1024 0x10E06C: SC::StorageClient::start() (storage-client.cpp:207)
+            n0: 1024 0x10B951: main (main.cpp:162)
+   n0: 0 in 2 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=51
+#-----------
+time=6991673
+mem_heap_B=95555
+mem_heap_extra_B=2877
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=52
+#-----------
+time=7031767
+mem_heap_B=125931
+mem_heap_extra_B=2869
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=53
+#-----------
+time=7079140
+mem_heap_B=95555
+mem_heap_extra_B=2877
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=54
+#-----------
+time=7126069
+mem_heap_B=95427
+mem_heap_extra_B=2853
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=55
+#-----------
+time=7166509
+mem_heap_B=95291
+mem_heap_extra_B=2853
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=56
+#-----------
+time=7210120
+mem_heap_B=125747
+mem_heap_extra_B=2837
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=57
+#-----------
+time=7250221
+mem_heap_B=189259
+mem_heap_extra_B=2893
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=58
+#-----------
+time=7290595
+mem_heap_B=155299
+mem_heap_extra_B=2773
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=59
+#-----------
+time=7336206
+mem_heap_B=124795
+mem_heap_extra_B=2757
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=60
+#-----------
+time=7379089
+mem_heap_B=124803
+mem_heap_extra_B=2765
+mem_stacks_B=0
+heap_tree=detailed
+n8: 124803 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 72704 0x553D304: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.24)
+  n1: 72704 0x4010A68: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x4010B79: _dl_init (dl-init.c:30)
+    n0: 72704 0x4000ED8: ??? (in /lib/x86_64-linux-gnu/ld-2.26.so)
+ n1: 30504 0x506D6B0: google::LogMessage::Init(char const*, int, int, void (google::LogMessage::*)()) (logging.cc:1201)
+  n2: 30504 0x506DDFA: google::LogMessage::LogMessage(char const*, int) (logging.cc:1165)
+   n1: 30504 0x10DCC6: SC::StorageClient::onTimerEvent(ChCppUtils::TimerEvent*) (storage-client.cpp:162)
+    n1: 30504 0x4E57AEA: ChCppUtils::Timer::_onEvTimer(int, short, void*) (timer.cpp:101)
+     n1: 30504 0x5E4D8F3: ??? (in /usr/lib/x86_64-linux-gnu/libevent-2.1.so.6.0.2)
+      n1: 30504 0x5E4E225: event_base_loop (in /usr/lib/x86_64-linux-gnu/libevent-2.1.so.6.0.2)
+       n1: 30504 0x4E57BF2: ChCppUtils::Timer::_timerRoutine(void*, event_base*) (timer.cpp:115)
+        n1: 30504 0x4E47438: ChCppUtils::Thread::runJob(ChCppUtils::ThreadJobBase*) (thread.cpp:111)
+         n1: 30504 0x4E47649: ChCppUtils::Thread::run() (thread.cpp:86)
+          n1: 30504 0x4E47A5E: ChCppUtils::Thread::threadFunc(void*) (thread.cpp:55)
+           n1: 30504 0x556D0FD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.24)
+            n1: 30504 0x52997FA: start_thread (pthread_create.c:465)
+             n0: 30504 0x5B62B0D: clone (clone.S:95)
+   n0: 0 in 80 places, all below massif's threshold (1.00%)
+ n0: 13812 in 114 places, all below massif's threshold (1.00%)
+ n2: 1888 0x119027: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (new_allocator.h:111)
+  n1: 1760 0x118E31: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11518)
+   n2: 1760 0x11A20D: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11462)
+    n1: 1696 0x11A20D: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11462)
+     n1: 1696 0x11A20D: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11462)
+      n1: 1696 0x1127DB: SC::Config::init() (json.hpp:11384)
+       n0: 1696 0x10B928: main (main.cpp:156)
+    n0: 64 in 1 place, below massif's threshold (1.00%)
+  n0: 128 in 1 place, below massif's threshold (1.00%)
+ n1: 1815 0x5B17F0B: __tzfile_read (tzfile.c:279)
+  n1: 1815 0x5B17A3F: __tz_convert (tzset.c:407)
+   n1: 1815 0x506D74E: google::LogMessage::Init(char const*, int, int, void (google::LogMessage::*)()) (logging.cc:1225)
+    n1: 1815 0x506DDFA: google::LogMessage::LogMessage(char const*, int) (logging.cc:1165)
+     n1: 1815 0x10F7C2: SC::Config::selectConfigFile() (config.cpp:94)
+      n1: 1815 0x11253A: SC::Config::init() (config.cpp:175)
+       n0: 1815 0x10B928: main (main.cpp:156)
+ n1: 1440 0x11A3BB: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (new_allocator.h:111)
+  n0: 1440 in 2 places, all below massif's threshold (1.00%)
+ n1: 1328 0x5E4F1C8: event_base_new_with_config (in /usr/lib/x86_64-linux-gnu/libevent-2.1.so.6.0.2)
+  n1: 1328 0x5E4F649: event_base_new (in /usr/lib/x86_64-linux-gnu/libevent-2.1.so.6.0.2)
+   n0: 1328 in 2 places, all below massif's threshold (1.00%)
+ n1: 1312 0x117122: void std::vector<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>, std::allocator<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer> > >::_M_realloc_insert<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer> >(__gnu_cxx::__normal_iterator<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>*, std::vector<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>, std::allocator<nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer> > > >, nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>&&) (new_allocator.h:111)
+  n1: 1312 0x11A516: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (vector.tcc:105)
+   n2: 1312 0x11A20D: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11462)
+    n1: 1280 0x11A20D: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11462)
+     n1: 1280 0x11A20D: nlohmann::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::adl_serializer>::parser::parse_internal(bool) (json.hpp:11462)
+      n1: 1280 0x1127DB: SC::Config::init() (json.hpp:11384)
+       n0: 1280 0x10B928: main (main.cpp:156)
+    n0: 32 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=61
+#-----------
+time=7423603
+mem_heap_B=124427
+mem_heap_extra_B=2685
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=62
+#-----------
+time=7470420
+mem_heap_B=93923
+mem_heap_extra_B=2669
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=63
+#-----------
+time=7516394
+mem_heap_B=92979
+mem_heap_extra_B=2485
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=64
+#-----------
+time=7560936
+mem_heap_B=92979
+mem_heap_extra_B=2501
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=65
+#-----------
+time=7607241
+mem_heap_B=90630
+mem_heap_extra_B=2226
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=66
+#-----------
+time=7651971
+mem_heap_B=84925
+mem_heap_extra_B=1323
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=67
+#-----------
+time=7692351
+mem_heap_B=84571
+mem_heap_extra_B=1285
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=68
+#-----------
+time=7736352
+mem_heap_B=84595
+mem_heap_extra_B=1317
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=69
+#-----------
+time=7783969
+mem_heap_B=83539
+mem_heap_extra_B=1197
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=70
+#-----------
+time=7828287
+mem_heap_B=144499
+mem_heap_extra_B=1181
+mem_stacks_B=0
+heap_tree=detailed
+n4: 144499 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 72704 0x553D304: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.24)
+  n1: 72704 0x4010A68: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x4010B79: _dl_init (dl-init.c:30)
+    n0: 72704 0x4000ED8: ??? (in /lib/x86_64-linux-gnu/ld-2.26.so)
+ n1: 61008 0x506D6B0: google::LogMessage::Init(char const*, int, int, void (google::LogMessage::*)()) (logging.cc:1201)
+  n3: 61008 0x506DDFA: google::LogMessage::LogMessage(char const*, int) (logging.cc:1165)
+   n1: 30504 0x4E47816: ChCppUtils::Thread::run() (thread.cpp:104)
+    n1: 30504 0x4E47A5E: ChCppUtils::Thread::threadFunc(void*) (thread.cpp:55)
+     n1: 30504 0x556D0FD: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.24)
+      n1: 30504 0x52997FA: start_thread (pthread_create.c:465)
+       n0: 30504 0x5B62B0D: clone (clone.S:95)
+   n1: 30504 0x4E48525: ChCppUtils::Thread::~Thread() (thread.cpp:188)
+    n2: 30504 0x4E48E3F: ChCppUtils::ThreadPool::~ThreadPool() (thread-pool.cpp:84)
+     n1: 30504 0x4E511EC: ChCppUtils::Http::Client::HttpClientImpl::~HttpClientImpl() (http-client.cpp:83)
+      n1: 30504 0x4E52480: std::_Sp_counted_ptr<ChCppUtils::Http::Client::HttpClientImpl*, (__gnu_cxx::_Lock_policy)2>::_M_dispose() (shared_ptr_base.h:376)
+       n1: 30504 0x4E52398: std::_Hashtable<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::shared_ptr<ChCppUtils::Http::Client::HttpClientImpl> >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::shared_ptr<ChCppUtils::Http::Client::HttpClientImpl> > >, std::__detail::_Select1st, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> >::clear() (shared_ptr_base.h:154)
+        n1: 30504 0x4E523BB: std::unordered_map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::shared_ptr<ChCppUtils::Http::Client::HttpClientImpl>, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, std::shared_ptr<ChCppUtils::Http::Client::HttpClientImpl> > > >::~unordered_map() (hashtable.h:1355)
+         n1: 30504 0x5A8A238: __cxa_finalize (cxa_finalize.c:56)
+          n1: 30504 0x4E44EA1: ??? (in /usr/local/lib/libch-cpp-utils.so.0.0.0)
+           n1: 30504 0x40111A8: _dl_fini (dl-fini.c:235)
+            n1: 30504 0x5A89EBE: __run_exit_handlers (exit.c:83)
+             n1: 30504 0x5A89F18: exit (exit.c:105)
+              n0: 30504 0x5A6F1C6: (below main) (libc-start.c:342)
+     n0: 0 in 2 places, all below massif's threshold (1.00%)
+   n0: 0 in 93 places, all below massif's threshold (1.00%)
+ n0: 8972 in 119 places, all below massif's threshold (1.00%)
+ n1: 1815 0x5B17F0B: __tzfile_read (tzfile.c:279)
+  n1: 1815 0x5B17A3F: __tz_convert (tzset.c:407)
+   n1: 1815 0x506D74E: google::LogMessage::Init(char const*, int, int, void (google::LogMessage::*)()) (logging.cc:1225)
+    n1: 1815 0x506DDFA: google::LogMessage::LogMessage(char const*, int) (logging.cc:1165)
+     n1: 1815 0x10F7C2: SC::Config::selectConfigFile() (config.cpp:94)
+      n1: 1815 0x11253A: SC::Config::init() (config.cpp:175)
+       n0: 1815 0x10B928: main (main.cpp:156)
+#-----------
+snapshot=71
+#-----------
+time=7871063
+mem_heap_B=6858
+mem_heap_extra_B=854
+mem_stacks_B=0
+heap_tree=empty

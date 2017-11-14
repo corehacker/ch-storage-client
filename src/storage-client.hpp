@@ -71,6 +71,20 @@ using ChCppUtils::Http::Client::HttpRequestLoadEvent;
 
 namespace SC {
 
+class StorageClient;
+
+class UploadContext {
+public:
+	UploadContext(StorageClient *client, HttpRequest *request);
+	~UploadContext();
+	StorageClient *getClient();
+	HttpRequest *getRequest();
+private:
+	StorageClient *client;
+
+	HttpRequest *request;
+};
+
 class StorageClient {
 private:
 	Config *mConfig;

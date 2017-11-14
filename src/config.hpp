@@ -95,6 +95,9 @@ private:
 	vector<char *> mCameraEncodeChars;
 
 	bool mDaemon;
+	bool mLogToConsole;
+
+	uint32_t mRunFor;
 
 	bool selectConfigFile();
 	bool validateConfigFile();
@@ -124,6 +127,8 @@ public:
 	char **getCameraCaptureCharsPtrs();
 	char **getCameraEncodeCharsPtrs();
 	bool isDaemon();
+	uint32_t getRunFor();
+	bool shouldLogToConsole();
 };
 
 } // End namespace SC.

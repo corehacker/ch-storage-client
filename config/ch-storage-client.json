@@ -1,6 +1,8 @@
 {
     "name": "living-1",
+    "console": true,
     "daemon": false,
+    "run-for": 60000,
     "watch": [
         "./data"
     ],
@@ -17,7 +19,7 @@
         "interval-s": 2
     },
     "camera": {
-        "enable": true,
+        "enable": false,
         "pipe": "fifo.h264",
         "commands": {
             "capture": [
