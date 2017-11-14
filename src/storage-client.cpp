@@ -48,6 +48,7 @@
 #include <cstdio>
 
 #include <ch-cpp-utils/utils.hpp>
+#include <ch-cpp-utils/http-client.hpp>
 #include <glog/logging.h>
 
 #include "storage-client.hpp"
@@ -63,7 +64,26 @@ using ChCppUtils::getEpochNano;
 using ChCppUtils::getDateTime;
 using ChCppUtils::replace;
 
+using ChCppUtils::Http::Client::HttpClientImpl;
+
 namespace SC {
+
+UploadContext::UploadContext(StorageClient *client, HttpRequest *request) {
+	this->client = client;
+	this->request = request;
+}
+
+UploadContext::~UploadContext() {
+
+}
+
+StorageClient *UploadContext::getClient() {
+	return client;
+}
+
+HttpRequest *UploadContext::getRequest() {
+	return request;
+}
 
 StorageClient::StorageClient(Config *config) {
 	mConfig = config;
@@ -113,8 +133,13 @@ void StorageClient::onFile(string name, string ext, string path) {
 }
 
 void StorageClient::_onLoad(HttpRequestLoadEvent *event, void *this_) {
-	StorageClient *client = (StorageClient *) this_;
+	UploadContext *context = (UploadContext *) this_;
+	StorageClient *client = context->getClient();
 	client->onLoad(event);
+
+	HttpRequest *request = context->getRequest();
+	delete request;
+	delete context;
 }
 
 void StorageClient::onLoad(HttpRequestLoadEvent *event) {
@@ -127,20 +152,17 @@ void StorageClient::_onTimerEvent(TimerEvent *event, void *this_) {
 }
 
 void StorageClient::onTimerEvent(TimerEvent *event) {
-	LOG(INFO) << "Timer fired!!";
 	for(auto watchDir : mConfig->getWatchDirs()) {
-		LOG(INFO) << "Watch dir: " << watchDir;
 		vector<string> files = directoryListing(watchDir);
 		for(auto file : files) {
 			string path = watchDir + "/" + file;
 			bool markForDelete = fileExpired(path, mConfig->getPurgeTtlSec());
-			LOG(INFO) << "File: " << path << ", Delete? " << markForDelete;
 			if(markForDelete) {
 				if(0 != std::remove(path.data())) {
-					LOG(ERROR) << "File: " << path << ", marked for Delete? failed to delete";
+					LOG(ERROR) << "File: " << path << ", marked for Delete! failed to delete";
 					perror("remove");
 				} else {
-					LOG(INFO) << "File: " << path << ", marked for Delete? Deleted successfully";
+					LOG(INFO) << "File: " << path << ", marked for Delete! Deleted successfully";
 				}
 			}
 		}
@@ -166,11 +188,13 @@ void StorageClient::upload(string name, string ext, string path) {
 	std::vector<char> buffer(size);
 	if (file.read(buffer.data(), size))
 	{
-		LOG(INFO) << "Read " << size << " bytes";
+		LOG(INFO) << "File content read " << size << " bytes";
 		string url = uploadPrefix + "/" + targetName;
 		LOG(INFO) << "Target URL: " << url;
 		HttpRequest *request = new HttpRequest();
-		request->onLoad(StorageClient::_onLoad).bind(this);
+
+		UploadContext *context = new UploadContext(this, request);
+		request->onLoad(StorageClient::_onLoad).bind(context);
 		request->open(EVHTTP_REQ_POST, url).send(buffer.data(), buffer.size());
 	}
 }

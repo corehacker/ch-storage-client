@@ -60,3 +60,5 @@ configure
 src/Makefile.in
 src/ch-storage-client
 data/*
+*.ts
+*log*

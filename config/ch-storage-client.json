@@ -1,7 +1,7 @@
 {
     "name": "living-1",
     "daemon": false,
-    "run-for": 10000,
+    "run-for": 60000,
     "watch": [
         "./data"
     ],
