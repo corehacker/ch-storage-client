@@ -1,5 +1,6 @@
 {
     "name": "living-1",
+    "console": true,
     "daemon": false,
     "run-for": 60000,
     "watch": [

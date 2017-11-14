@@ -164,6 +164,9 @@ bool Config::validateConfigFile() {
 	mDaemon = mJson["daemon"];
 	LOG(INFO) << "daemon: " << mDaemon;
 
+	mLogToConsole = mJson["console"];
+	LOG(INFO) << "console: " << mLogToConsole;
+
 	mRunFor = mJson["run-for"];
 	LOG(INFO) << "run-for: " << mRunFor;
 
@@ -263,6 +266,10 @@ bool Config::isDaemon() {
 
 uint32_t Config::getRunFor() {
 	return mRunFor;
+}
+
+bool Config::shouldLogToConsole() {
+	return mLogToConsole;
 }
 
 } // End namespace SS.
