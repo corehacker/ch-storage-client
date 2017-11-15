@@ -39,31 +39,18 @@
  * \brief
  *
  ******************************************************************************/
-#include <fstream>
-#include <sys/stat.h>
-#include <unistd.h>
 #include <string>
-#include <sys/types.h>
-#include <chrono>
-#include <cstdio>
-
 #include <glog/logging.h>
 
 #include "config.hpp"
 
 using std::ifstream;
 
-using ChCppUtils::mkPath;
-using ChCppUtils::directoryListing;
-using ChCppUtils::fileExpired;
-using ChCppUtils::fileExists;
-
 namespace SC {
 
-Config::Config() {
-	etcConfigPath = "/etc/ch-storage-client/ch-storage-client.json";
-	localConfigPath = "./config/ch-storage-client.json";
-
+Config::Config() :
+		ChCppUtils::Config("/etc/ch-storage-client/ch-storage-client.json",
+				"./config/ch-storage-client.json") {
 	hostname = "localhost";
 	port = 8888;
 	prefix = "/";
@@ -72,39 +59,19 @@ Config::Config() {
 	mPurgeIntervalSec = 60;
 	mPurgeTtlSec= 60;
 	mCameraEnable = false;
-
-	mDaemon = false;
-
-	mRunFor = 30000;
 }
 
 Config::~Config() {
 	LOG(INFO) << "*****************~Config";
 }
 
-bool Config::selectConfigFile() {
-	string selected = "";
-	ifstream config(etcConfigPath);
-	if(!fileExists(etcConfigPath)) {
-		if(!fileExists(localConfigPath)) {
-			LOG(ERROR) << "No config file found in /etc/ch-storage-client or " <<
-					"./config. I am looking for ch-storage-client.json";
-			return false;
-		} else {
-			LOG(INFO) << "Found config file "
-					"./config/ch-storage-client.json";
-			selectedConfigPath = localConfigPath;
-			return true;
-		}
-	} else {
-		LOG(INFO) << "Found config file "
-				"/etc/ch-storage-client/ch-storage-client.json";
-		selectedConfigPath = etcConfigPath;
-		return true;
-	}
+void Config::init() {
+	ChCppUtils::Config::init();
+
+	populateConfigValues();
 }
 
-bool Config::validateConfigFile() {
+bool Config::populateConfigValues() {
 	LOG(INFO) << "<-----------------------Config";
 
 	name = mJson["name"];
@@ -161,31 +128,8 @@ bool Config::validateConfigFile() {
 		mCameraEncodeChars.push_back(const_cast<char*>((char *) nullptr));
 	}
 
-	mDaemon = mJson["daemon"];
-	LOG(INFO) << "daemon: " << mDaemon;
-
-	mLogToConsole = mJson["console"];
-	LOG(INFO) << "console: " << mLogToConsole;
-
-	mRunFor = mJson["run-for"];
-	LOG(INFO) << "run-for: " << mRunFor;
-
 	LOG(INFO) << "----------------------->Config";
 	return true;
-}
-
-void Config::init() {
-	if(!selectConfigFile()) {
-		LOG(ERROR) << "Invalid config file.";
-		std::terminate();
-	}
-	ifstream config(selectedConfigPath);
-	config >> mJson;
-	if(!validateConfigFile()) {
-		LOG(ERROR) << "Invalid config file.";
-		std::terminate();
-	}
-	LOG(INFO) << "Config: " << mJson;
 }
 
 vector<string> &Config::getWatchDirs() {
@@ -258,18 +202,6 @@ char **Config::getCameraCaptureCharsPtrs() {
 
 char **Config::getCameraEncodeCharsPtrs() {
 	return (mCameraEncodeChars.size() ? &mCameraEncodeChars[0] : nullptr);
-}
-
-bool Config::isDaemon() {
-	return mDaemon;
-}
-
-uint32_t Config::getRunFor() {
-	return mRunFor;
-}
-
-bool Config::shouldLogToConsole() {
-	return mLogToConsole;
 }
 
 } // End namespace SS.
