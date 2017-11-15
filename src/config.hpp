@@ -41,40 +41,19 @@
  ******************************************************************************/
 #include <vector>
 #include <string>
-#include "../third-party/json/json.hpp"
-#include <ch-cpp-utils/timer.hpp>
 #include <ch-cpp-utils/utils.hpp>
-#include <ch-cpp-utils/fs-watch.hpp>
-#include <ch-cpp-utils/utils.hpp>
-#include <ch-cpp-utils/http-request.hpp>
-#include <ch-cpp-utils/timer.hpp>
+#include <ch-cpp-utils/config.hpp>
 
 #ifndef SRC_CONFIG_HPP_
 #define SRC_CONFIG_HPP_
 
 using std::vector;
 using std::string;
-using namespace std::chrono;
-
-using json = nlohmann::json;
-
-using ChCppUtils::FsWatch;
-using ChCppUtils::Fts;
-using ChCppUtils::FtsOptions;
-using ChCppUtils::Timer;
-using ChCppUtils::TimerEvent;
-
-using ChCppUtils::Http::Client::HttpRequest;
-using ChCppUtils::Http::Client::HttpRequestLoadEvent;
 
 namespace SC {
 
-class Config {
+class Config : public ChCppUtils::Config {
 private:
-	string etcConfigPath;
-	string localConfigPath;
-	string selectedConfigPath;
-
 	vector<string> watchDirs;
 	vector<string> filters;
 
@@ -94,16 +73,8 @@ private:
 	vector<char *> mCameraCaptureChars;
 	vector<char *> mCameraEncodeChars;
 
-	bool mDaemon;
-	bool mLogToConsole;
-
-	uint32_t mRunFor;
-
-	bool selectConfigFile();
-	bool validateConfigFile();
+	bool populateConfigValues();
 public:
-	json mJson;
-
 	Config();
 	~Config();
 	void init();
@@ -126,9 +97,6 @@ public:
 	bool hasCameraEncodeCharsPtrs();
 	char **getCameraCaptureCharsPtrs();
 	char **getCameraEncodeCharsPtrs();
-	bool isDaemon();
-	uint32_t getRunFor();
-	bool shouldLogToConsole();
 };
 
 } // End namespace SC.

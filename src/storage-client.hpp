@@ -41,7 +41,6 @@
  ******************************************************************************/
 #include <vector>
 #include <string>
-#include "../third-party/json/json.hpp"
 #include <ch-cpp-utils/timer.hpp>
 #include <ch-cpp-utils/utils.hpp>
 #include <ch-cpp-utils/fs-watch.hpp>
