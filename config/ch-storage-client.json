@@ -3,6 +3,7 @@
     "console": true,
     "daemon": false,
     "run-for": 60000,
+    "run-forever": false,
     "watch": [
         "./data"
     ],

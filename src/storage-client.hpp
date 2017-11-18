@@ -60,6 +60,7 @@ using namespace std::chrono;
 using json = nlohmann::json;
 
 using ChCppUtils::FsWatch;
+using ChCppUtils::OnFileData;
 using ChCppUtils::Fts;
 using ChCppUtils::FtsOptions;
 using ChCppUtils::Timer;
@@ -93,8 +94,8 @@ private:
 	TimerEvent *mTimerEvent;
 	string uploadPrefix;
 
-	static void _onFile(string name, string ext, string path, void *this_);
-	void onFile(string name, string ext, string path);
+	static void _onFile(OnFileData &data, void *this_);
+	void onFile(OnFileData &data);
 
 	static void _onLoad(HttpRequestLoadEvent *event, void *this_);
 	void onLoad(HttpRequestLoadEvent *event);
@@ -102,7 +103,7 @@ private:
 	static void _onTimerEvent(TimerEvent *event, void *this_);
 	void onTimerEvent(TimerEvent *event);
 
-	void upload(string name, string ext, string path);
+	void upload(OnFileData &data);
 public:
 	StorageClient(Config *config);
 	~StorageClient();

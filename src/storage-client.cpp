@@ -123,13 +123,13 @@ StorageClient::~StorageClient() {
 	delete mTimer;
 }
 
-void StorageClient::_onFile(string name, string ext, string path, void *this_) {
+void StorageClient::_onFile(OnFileData &data, void *this_) {
 	StorageClient *client = (StorageClient *) this_;
-	client->onFile(name, ext, path);
+	client->onFile(data);
 }
 
-void StorageClient::onFile(string name, string ext, string path) {
-	upload(name, ext, path);
+void StorageClient::onFile(OnFileData &data) {
+	upload(data);
 }
 
 void StorageClient::_onLoad(HttpRequestLoadEvent *event, void *this_) {
@@ -171,17 +171,17 @@ void StorageClient::onTimerEvent(TimerEvent *event) {
 	mTimer->restart(event);
 }
 
-void StorageClient::upload(string name, string ext, string path) {
-	LOG(INFO) << "File to be uploaded: name: " << name << ", path: " << path;
+void StorageClient::upload(OnFileData &data) {
+	LOG(INFO) << "File to be uploaded: name: " << data.name << ", path: " << data.path;
 
 	string targetName = getDateTime() + "-" + std::to_string(getEpochNano()) +
-			"." + ext;
+			"." + data.ext;
 	std::replace(targetName.begin(), targetName.end(), ' ', '-');
 	std::replace(targetName.begin(), targetName.end(), ':', '-');
 
 	LOG(INFO) << "Will rename to: " << targetName;
 
-	std::ifstream file(path, std::ios::binary | std::ios::ate);
+	std::ifstream file(data.path, std::ios::binary | std::ios::ate);
 	std::streamsize size = file.tellg();
 	file.seekg(0, std::ios::beg);
 
