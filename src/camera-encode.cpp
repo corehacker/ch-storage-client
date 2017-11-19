@@ -30,11 +30,11 @@
 /*******************************************************************************
  * Copyright (c) 2017, Sandeep Prakash <123sandy@gmail.com>
  *
- * \file   main.cpp
+ * \file   camera-encode.cpp
  *
  * \author Sandeep Prakash
  *
- * \date   Nov 02, 2017
+ * \date   Nov 18, 2017
  *
  * \brief
  *
@@ -49,23 +49,39 @@
 #include <glog/logging.h>
 #include <ch-cpp-utils/utils.hpp>
 
-#include "storage-client.hpp"
+#include "config.hpp"
 
 using ChCppUtils::directoryListing;
 
-using SC::StorageClient;
 using SC::Config;
 
 static Config *config = nullptr;
-static StorageClient *client = nullptr;
 
 static void initEnv();
 static void deinitEnv();
-static void initClient();
+static void initEncode();
 
-static void initClient() {
-	client = new StorageClient(config);
-	client->start();
+static void initEncode() {
+	pid_t pid = fork();
+	if (pid == -1) {
+		perror("fork");
+		LOG(ERROR) << "Forking encode process failed. Errno: " << errno;
+		exit(1);
+	} else if (pid > 0) {
+		LOG(INFO) << "Forking encode process success. In parent: " << getpid();
+		int status;
+		waitpid(pid, &status, 0);
+		LOG(INFO) << "Encode process exited. In parent: " << getpid();
+	} else {
+		LOG(INFO) << "Forking encode process success. In child: " << getpid();
+		char **args = config->getCameraEncodeCharsPtrs();
+		if (execvp(*args, args) < 0) {     /* execute the command  */
+			perror("execvp-encode");
+			LOG(ERROR) << "Encode process exec failed. In child: " << getpid();
+			exit(1);
+		}
+		LOG(INFO) << "Encode process exiting. In child: " << getpid();
+	}
 }
 
 static void initEnv() {
@@ -80,31 +96,20 @@ static void initEnv() {
 		google::InitGoogleLogging("ch-storage-server");
 	}
 
-	initClient();
+	if (config->isCameraEnabled() && config->hasCameraCaptureCharsPtrs()
+			&& config->hasCameraEncodeCharsPtrs()) {
+		initEncode();
+	}
 }
 
 static void deinitEnv() {
-	LOG(INFO) << "Stopping client...";
-//	client->stop();
-	LOG(INFO) << "Stopped client...";
-	delete client;
-	LOG(INFO) << "Deleted client...";
 	delete config;
 	LOG(INFO) << "Deleted config...";
 }
 
 int main(int argc, char **argv) {
 	initEnv();
-
-	if(config->shouldRunForever()) {
-		THREAD_SLEEP_FOREVER;
-	} else {
-		THREAD_SLEEP(config->getRunFor());
-	}
-
-
 	deinitEnv();
-
 	return 0;
 }
 
