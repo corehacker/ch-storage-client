@@ -93,6 +93,7 @@ private:
 	Timer *mTimer;
 	TimerEvent *mTimerEvent;
 	string uploadPrefix;
+	vector<OnFileData> uploadQueue;
 
 	static void _onFile(OnFileData &data, void *this_);
 	void onFile(OnFileData &data);
@@ -103,7 +104,7 @@ private:
 	static void _onTimerEvent(TimerEvent *event, void *this_);
 	void onTimerEvent(TimerEvent *event);
 
-	void upload(OnFileData &data);
+	void upload(OnFileData &data, string &infValue, string &targetDuration);
 public:
 	StorageClient(Config *config);
 	~StorageClient();
