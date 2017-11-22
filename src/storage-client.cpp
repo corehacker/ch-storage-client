@@ -129,7 +129,49 @@ void StorageClient::_onFile(OnFileData &data, void *this_) {
 }
 
 void StorageClient::onFile(OnFileData &data) {
-	upload(data);
+	if(data.ext == "ts") {
+		uploadQueue.emplace_back(data);
+	} else if(data.ext == "m3u8") {
+		if(uploadQueue.size() == 0) {
+			return;
+		}
+		std::vector<std::string> playlist;
+		std::ifstream playlistFile(data.path);
+		std::string line;
+
+		while(std::getline(playlistFile, line)) {
+			string filename = line.substr(line.find_last_of('/') + 1);
+			LOG(INFO) << " + " << filename;
+		    playlist.push_back(filename);
+		}
+		OnFileData tsData = uploadQueue.at(0);
+		bool found = false;
+		string inf;
+		string targetDuration;
+		for(uint32_t i = 0; i < playlist.size(); i++) {
+			string filename = playlist[i];
+
+			if(filename.find("#EXT-X-TARGETDURATION") != string::npos) {
+				targetDuration = filename.substr(filename.find_first_of(":") + 1);
+			}
+
+			if(filename == tsData.name) {
+				found = true;
+				inf = playlist[i - 1];
+				break;
+			}
+		}
+		if(found) {
+			uploadQueue.erase(uploadQueue.begin());
+			string infValue = inf.substr(inf.find_last_of(":") + 1);
+			if(infValue.find_last_of(",") != string::npos) {
+				infValue.erase(infValue.find_last_of(","), 1);
+			}
+			LOG(INFO) << "File found: " << tsData.name << ":" << infValue;
+			upload(tsData, infValue, targetDuration);
+		}
+	} else {
+	}
 }
 
 void StorageClient::_onLoad(HttpRequestLoadEvent *event, void *this_) {
@@ -151,10 +193,17 @@ void StorageClient::_onTimerEvent(TimerEvent *event, void *this_) {
 	server->onTimerEvent(event);
 }
 
+bool endsWith(const std::string &str, const std::string &suffix)
+{
+    return str.size() >= suffix.size() &&
+           str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
+}
+
 void StorageClient::onTimerEvent(TimerEvent *event) {
 	for(auto watchDir : mConfig->getWatchDirs()) {
 		vector<string> files = directoryListing(watchDir);
 		for(auto file : files) {
+			if(endsWith(file, ".m3u8")) continue;
 			string path = watchDir + "/" + file;
 			bool markForDelete = fileExpired(path, mConfig->getPurgeTtlSec());
 			if(markForDelete) {
@@ -171,7 +220,7 @@ void StorageClient::onTimerEvent(TimerEvent *event) {
 	mTimer->restart(event);
 }
 
-void StorageClient::upload(OnFileData &data) {
+void StorageClient::upload(OnFileData &data, string &infValue, string &targetDuration) {
 	LOG(INFO) << "File to be uploaded: name: " << data.name << ", path: " << data.path;
 
 	string targetName = getDateTime() + "-" + std::to_string(getEpochNano()) +
@@ -189,7 +238,9 @@ void StorageClient::upload(OnFileData &data) {
 	if (file.read(buffer.data(), size))
 	{
 		LOG(INFO) << "File content read " << size << " bytes";
-		string url = uploadPrefix + "/" + targetName;
+		string url = uploadPrefix + "/" + targetName +
+				"?extinf=" + infValue +
+				"&targetduration=" + targetDuration;
 		LOG(INFO) << "Target URL: " << url;
 		HttpRequest *request = new HttpRequest();
 

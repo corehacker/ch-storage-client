@@ -8,7 +8,7 @@
         "./data"
     ],
     "filters": [
-        "ts"
+        "ts", "m3u8"
     ],
     "server": {
         "hostname": "localhost",
