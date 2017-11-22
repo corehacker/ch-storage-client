@@ -145,6 +145,7 @@ void StorageClient::onFile(OnFileData &data) {
 		    playlist.push_back(filename);
 		}
 		OnFileData tsData = uploadQueue.at(0);
+		LOG(INFO) << "Queue head: " << tsData.name;
 		bool found = false;
 		string inf;
 		string targetDuration;
@@ -204,6 +205,7 @@ void StorageClient::onTimerEvent(TimerEvent *event) {
 		vector<string> files = directoryListing(watchDir);
 		for(auto file : files) {
 			if(endsWith(file, ".m3u8")) continue;
+			if(!endsWith(file, ".ts")) continue;
 			string path = watchDir + "/" + file;
 			bool markForDelete = fileExpired(path, mConfig->getPurgeTtlSec());
 			if(markForDelete) {
