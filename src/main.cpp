@@ -64,19 +64,6 @@ static void deinitEnv();
 static void initClient();
 
 static void initClient() {
-	for(auto watch : config->getWatchDirs()) {
-		for(auto file : directoryListing(watch)) {
-			string path = watch + "/" + file;
-			LOG(INFO) << "Deleting file: " << path;
-			if(0 != std::remove(path.data())) {
-				LOG(ERROR) << "File: " << path << " failed to delete";
-				perror("remove");
-			} else {
-				LOG(INFO) << "File: " << path << " Deleted successfully";
-			}
-		}
-	}
-
 	client = new StorageClient(config);
 	client->start();
 }

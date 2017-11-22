@@ -101,6 +101,14 @@ private:
 	static void _onLoad(HttpRequestLoadEvent *event, void *this_);
 	void onLoad(HttpRequestLoadEvent *event);
 
+	static void _onFilePurge (OnFileData &data, void *this_);
+	void onFilePurge (OnFileData &data);
+
+	static void _onFilePurgeForced (OnFileData &data, void *this_);
+	void onFilePurgeForced (OnFileData &data);
+
+	void purge(bool force);
+
 	static void _onTimerEvent(TimerEvent *event, void *this_);
 	void onTimerEvent(TimerEvent *event);
 

@@ -87,8 +87,10 @@ HttpRequest *UploadContext::getRequest() {
 
 StorageClient::StorageClient(Config *config) {
 	mConfig = config;
-	for(auto watch : mConfig->getWatchDirs()) {
 
+	purge(true);
+
+	for(auto watch : mConfig->getWatchDirs()) {
 		FtsOptions options = {false};
 		options.bIgnoreRegularFiles = false;
 		options.bIgnoreHiddenFiles = true;
@@ -189,36 +191,62 @@ void StorageClient::onLoad(HttpRequestLoadEvent *event) {
 	LOG(INFO) << "Request Complete";
 }
 
+void StorageClient::_onFilePurge (OnFileData &data, void *this_) {
+	StorageClient *client = (StorageClient *) this_;
+	client->onFilePurge(data);
+}
+
+void StorageClient::onFilePurge (OnFileData &data) {
+	bool markForDelete = fileExpired(data.path, mConfig->getPurgeTtlSec());
+	if(markForDelete) {
+		if(0 != std::remove(data.path.data())) {
+			LOG(ERROR) << "File: " << data.path << ", marked for Delete! failed to delete";
+			perror("remove");
+		} else {
+			LOG(INFO) << "File: " << data.path << ", marked for Delete! Deleted successfully";
+		}
+	}
+}
+
+void StorageClient::_onFilePurgeForced (OnFileData &data, void *this_) {
+	StorageClient *client = (StorageClient *) this_;
+	client->onFilePurgeForced(data);
+}
+
+void StorageClient::onFilePurgeForced (OnFileData &data) {
+	if(0 != std::remove(data.path.data())) {
+		LOG(ERROR) << "File: " << data.path << ", marked for Delete! failed to delete";
+		perror("remove");
+	} else {
+		LOG(INFO) << "File: " << data.path << ", marked for Delete! Deleted successfully";
+	}
+}
+
+void StorageClient::purge(bool force) {
+	for(auto watchDir : mConfig->getWatchDirs()) {
+		FtsOptions options;
+		LOG(INFO) << "Purging files in: " << watchDir;
+		memset(&options, 0x00, sizeof(FtsOptions));
+		options.bIgnoreRegularFiles = false;
+		options.bIgnoreHiddenFiles = true;
+		options.bIgnoreHiddenDirs = true;
+		options.bIgnoreRegularDirs = true;
+		Fts fts(watchDir, &options);
+		if(!force) {
+			fts.walk(StorageClient::_onFilePurge, this);
+		} else {
+			fts.walk(StorageClient::_onFilePurgeForced, this);
+		}
+	}
+}
+
 void StorageClient::_onTimerEvent(TimerEvent *event, void *this_) {
 	StorageClient *server = (StorageClient *) this_;
 	server->onTimerEvent(event);
 }
 
-bool endsWith(const std::string &str, const std::string &suffix)
-{
-    return str.size() >= suffix.size() &&
-           str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
-}
-
 void StorageClient::onTimerEvent(TimerEvent *event) {
-	for(auto watchDir : mConfig->getWatchDirs()) {
-		vector<string> files = directoryListing(watchDir);
-		for(auto file : files) {
-			if(endsWith(file, ".m3u8")) continue;
-			if(!endsWith(file, ".ts")) continue;
-			string path = watchDir + "/" + file;
-			bool markForDelete = fileExpired(path, mConfig->getPurgeTtlSec());
-			if(markForDelete) {
-				if(0 != std::remove(path.data())) {
-					LOG(ERROR) << "File: " << path << ", marked for Delete! failed to delete";
-					perror("remove");
-				} else {
-					LOG(INFO) << "File: " << path << ", marked for Delete! Deleted successfully";
-				}
-			}
-		}
-	}
-
+	purge(false);
 	mTimer->restart(event);
 }
 
