@@ -225,7 +225,7 @@ void StorageClient::onFilePurgeForced (OnFileData &data) {
 void StorageClient::purge(bool force) {
 	for(auto watchDir : mConfig->getWatchDirs()) {
 		FtsOptions options;
-		LOG(INFO) << "Purging files in: " << watchDir;
+//		LOG(INFO) << "Purging files in: " << watchDir;
 		memset(&options, 0x00, sizeof(FtsOptions));
 		options.bIgnoreRegularFiles = false;
 		options.bIgnoreHiddenFiles = true;
