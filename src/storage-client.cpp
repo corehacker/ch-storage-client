@@ -132,6 +132,15 @@ void StorageClient::_onFile(OnFileData &data, void *this_) {
 
 void StorageClient::onFile(OnFileData &data) {
 	if(data.ext == "ts") {
+		std::ifstream segmentFile(data.path);
+		if(!segmentFile.is_open()) {
+			LOG(WARNING) << "Segment file open failed. File may not exist. "
+					"Might be deleted on startup which got detected by "
+					"fs watch: " << data.path;
+			return;
+		}
+		LOG(INFO) << "Segment file exists. Will add it to the queue: " <<
+				data.path;
 		uploadQueue.emplace_back(data);
 	} else if(data.ext == "m3u8") {
 		if(uploadQueue.size() == 0) {
@@ -261,6 +270,10 @@ void StorageClient::upload(OnFileData &data, string &infValue, string &targetDur
 	LOG(INFO) << "Will rename to: " << targetName;
 
 	std::ifstream file(data.path, std::ios::binary | std::ios::ate);
+	if(!file.is_open()) {
+		LOG(WARNING) << "File open failed: " << data.path;
+		return;
+	}
 	std::streamsize size = file.tellg();
 	file.seekg(0, std::ios::beg);
 
