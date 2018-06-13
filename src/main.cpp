@@ -68,6 +68,11 @@ static void initClient() {
 	client->start();
 }
 
+static void eventFatalCallback(int err) {
+   LOG(FATAL) << "[libevent] ****FATAL ERROR**** (" << err << ")";
+   exit(err);
+}
+
 static void initEnv() {
 	config = new Config();
 	config->init();
@@ -79,6 +84,8 @@ static void initEnv() {
 		LOG(INFO) << "Not LOGGING to console.";
 		google::InitGoogleLogging("ch-storage-server");
 	}
+
+   event_set_fatal_callback(eventFatalCallback);
 
 	initClient();
 }
@@ -97,8 +104,10 @@ int main(int argc, char **argv) {
 	initEnv();
 
 	if(config->shouldRunForever()) {
+      LOG(INFO) << "Running forever...";
 		THREAD_SLEEP_FOREVER;
 	} else {
+      LOG(INFO) << "Running for..." << config->getRunFor() << "ms";
 		THREAD_SLEEP(config->getRunFor());
 	}
 
