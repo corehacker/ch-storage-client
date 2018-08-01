@@ -4,6 +4,7 @@
     "daemon": false,
     "run-for": 60000,
     "run-forever": false,
+    "max-rss": 209715200,
     "watch": [
         "./data"
     ],

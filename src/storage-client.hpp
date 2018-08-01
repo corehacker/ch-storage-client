@@ -47,6 +47,7 @@
 #include <ch-cpp-utils/utils.hpp>
 #include <ch-cpp-utils/http-request.hpp>
 #include <ch-cpp-utils/timer.hpp>
+#include <ch-cpp-utils/proc-stat.hpp>
 
 #include "config.hpp"
 
@@ -65,6 +66,7 @@ using ChCppUtils::Fts;
 using ChCppUtils::FtsOptions;
 using ChCppUtils::Timer;
 using ChCppUtils::TimerEvent;
+using ChCppUtils::ProcStat;
 
 using ChCppUtils::Http::Client::HttpRequest;
 using ChCppUtils::Http::Client::HttpRequestLoadEvent;
@@ -94,6 +96,7 @@ private:
 	TimerEvent *mTimerEvent;
 	string uploadPrefix;
 	vector<OnFileData> uploadQueue;
+	ProcStat *procStat;
 
 	static void _onFile(OnFileData &data, void *this_);
 	void onFile(OnFileData &data);

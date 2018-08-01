@@ -46,6 +46,7 @@
 #include <sys/types.h>
 #include <chrono>
 #include <cstdio>
+#include <dirent.h>
 
 #include <ch-cpp-utils/utils.hpp>
 #include <ch-cpp-utils/http-client.hpp>
@@ -68,6 +69,27 @@ using ChCppUtils::Http::Client::HttpClientImpl;
 
 namespace SC {
 
+static int get_num_fds(void);
+
+static int get_num_fds()
+{
+     int fd_count;
+     char buf[64];
+     struct dirent *dp;
+       DIR *dir = NULL;
+
+     snprintf(buf, 64, "/proc/%i/fd/", getpid());
+
+     fd_count = 0;
+     
+       dir = opendir(buf);
+     while ((dp = readdir(dir)) != NULL) {
+          fd_count++;
+     }
+     closedir(dir);
+     return fd_count;
+}
+
 UploadContext::UploadContext(StorageClient *client, HttpRequest *request) {
 	this->client = client;
 	this->request = request;
@@ -87,6 +109,8 @@ HttpRequest *UploadContext::getRequest() {
 
 StorageClient::StorageClient(Config *config) {
 	mConfig = config;
+
+	procStat = new ProcStat();
 
 	purge(true);
 
@@ -255,6 +279,19 @@ void StorageClient::_onTimerEvent(TimerEvent *event, void *this_) {
 }
 
 void StorageClient::onTimerEvent(TimerEvent *event) {
+	uint32_t rss = procStat->getRSS();
+   LOG(INFO) << "Number of open fd(s): " << get_num_fds();
+	LOG(INFO) << "RSS: " << rss / 1024 << " KB, Max RSS Configured: " << 
+		(mConfig->getMaxRss() / 1024) << " KB";
+
+	if(rss > mConfig->getMaxRss()) {
+		LOG(ERROR) << "*********FATAL**********";
+		LOG(ERROR) << "Too much memory in use. Exiting process.";
+		LOG(FATAL) << "*********FATAL**********";
+		exit(1);
+	}
+
+
 	purge(false);
 	mTimer->restart(event);
 }
