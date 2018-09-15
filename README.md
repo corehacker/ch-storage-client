@@ -1,6 +1,6 @@
 # ch-storage-client
 
-[![Build Status](https://travis-ci.org/corehacker/ch-storage-client.png?branch=master)](https://travis-ci.org/corehacker/ch-storage-client)
+[![Build Status](https://dev.azure.com/prakashsandeep/prakashsandeep/_apis/build/status/corehacker.ch-storage-client)](https://dev.azure.com/prakashsandeep/prakashsandeep/_build/latest?definitionId=3)
 
 * Capture on camera enabled Raspberry Pi.
 * Encode using ffmpeg to initividual TS segments (HLS).
