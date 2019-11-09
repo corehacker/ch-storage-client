@@ -45,7 +45,7 @@
 #include <ch-cpp-utils/utils.hpp>
 #include <ch-cpp-utils/fs-watch.hpp>
 #include <ch-cpp-utils/utils.hpp>
-#include <ch-cpp-utils/http-request.hpp>
+#include <ch-cpp-utils/http/client/http.hpp>
 #include <ch-cpp-utils/timer.hpp>
 #include <ch-cpp-utils/proc-stat.hpp>
 

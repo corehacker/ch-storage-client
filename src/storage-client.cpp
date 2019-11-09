@@ -49,7 +49,7 @@
 #include <dirent.h>
 
 #include <ch-cpp-utils/utils.hpp>
-#include <ch-cpp-utils/http-client.hpp>
+#include <ch-cpp-utils/http/client/http.hpp>
 #include <glog/logging.h>
 
 #include "storage-client.hpp"
