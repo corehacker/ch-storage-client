@@ -52,10 +52,13 @@ function install_ch_storage_client {
   cd ..
 }
 
-#install_libevent
-#install_glog
-#install_gperftools
-#install_ch_cpp_utils
-
+# install_libevent
+# install_glog
+# install_gperftools
+# install_ch_cpp_utils
+# install_ch_storage_client
 
 install_libevent && install_glog && install_gperftools && install_ch_cpp_utils && install_ch_storage_client
+
+
+rm -rf $TEMP_DIR
