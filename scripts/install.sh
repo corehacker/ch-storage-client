@@ -16,6 +16,9 @@ CH_STORAGE_CLIENT_GIT_DOWNLOAD="https://github.com/corehacker/ch-storage-client.
 
 function cleanup {
   sudo rm -rf $TEMP_DIR ltmain.sh
+}
+
+function end_installation {
   echo "----------------------------------------------------------------------------" >> $LOG_FILE
   echo "                        Ending Installation" >> $LOG_FILE
   echo "----------------------------------------------------------------------------" >> $LOG_FILE
@@ -29,8 +32,6 @@ function log {
 }
 
 function init {
-  mkdir -p $TEMP_DIR && cd $TEMP_DIR
-
   echo "" > $LOG_FILE
   echo "----------------------------------------------------------------------------" >> $LOG_FILE
   echo "                        Starting Installation" >> $LOG_FILE
@@ -39,6 +40,8 @@ function init {
   log "                        Starting Installation"
   log "----------------------------------------------------------------------------"
 
+  log "[init] mkdir $TEMP_DIR" && \
+  mkdir -p $TEMP_DIR && cd $TEMP_DIR
   echo "Temporary Dir   : $TEMP_DIR"
   echo "Installation Dir: $INSTALLATION_TARGET"
 }
@@ -94,9 +97,9 @@ function install_glog {
     log "[glog] Checkout $GLOG_GIT_TAG..." && \
     git checkout $GLOG_GIT_TAG
     log "[glog] Running autogen.sh..." && \
-    ./autogen.sh
+    ./autogen.sh &>> $LOG_FILE
     log "[glog] Running autogen.sh..." && \
-    ./autogen.sh && configure_make_make_install "glog" && \
+    ./autogen.sh &>> $LOG_FILE && configure_make_make_install "glog" && \
   cd ..
   fi
 }
@@ -111,43 +114,132 @@ function install_gperftools {
     log "[gperftools] Checkout $GPERFTOOLS_GIT_TAG..." && \
     git checkout $GPERFTOOLS_GIT_TAG 
     log "[gperftools] Running autogen.sh..." && \
-    ./autogen.sh
+    ./autogen.sh &>> $LOG_FILE
     log "[gperftools] Running autogen.sh..." && \
-    ./autogen.sh && configure_make_make_install "gperftools" && \
+    ./autogen.sh &>> $LOG_FILE && configure_make_make_install "gperftools" && \
     cd ..
   fi
 }
 
 function install_ch_cpp_utils {
-  log "[ch-cpp-utils] Cloning $CH_CPP_UTILS_GIT_DOWNLOAD..." && \
-  git clone $CH_CPP_UTILS_GIT_DOWNLOAD && \
-  cd ch-cpp-utils && \
-  log "[ch-cpp-utils] Running autogen.sh..." && \
-  ./autogen.sh && configure_make_make_install "ch-cpp-utils" && \
-  cd ..
+  if test -f /usr/local/lib/libch-cpp-utils.so; then
+    log "[ch-cpp-utils] Already installed @ /usr/local/lib/libch-cpp-utils.so."
+    ls -lh /usr/local/lib/libch-cpp-utils.so
+  else
+    log "[ch-cpp-utils] Cloning $CH_CPP_UTILS_GIT_DOWNLOAD..." && \
+    git clone $CH_CPP_UTILS_GIT_DOWNLOAD &>> $LOG_FILE && \
+    cd ch-cpp-utils && \
+    log "[ch-cpp-utils] Running autogen.sh..." && \
+    ./autogen.sh &>> $LOG_FILE && configure_make_make_install "ch-cpp-utils" && \
+    cd ..
+  fi
 }
 
 function install_ch_storage_client {
-  log "[ch-storage-client] Cloning $CH_STORAGE_CLIENT_GIT_DOWNLOAD..." && \
-  git clone $CH_STORAGE_CLIENT_GIT_DOWNLOAD && \
-  cd ch-storage-client && \
-  log "[ch-storage-client] Running autogen.sh..." && \
-  ./autogen.sh && configure_make_make_install "ch-storage-client" && \
-  cd ..
+  if test -f /usr/local/bin/ch-storage-client; then
+    log "[ch-storage-client] Already installed @ /usr/local/bin/ch-storage-client."
+    ls -lh /usr/local/bin/ch-storage-client
+  else
+    log "[ch-storage-client] Cloning $CH_STORAGE_CLIENT_GIT_DOWNLOAD..." && \
+    git clone $CH_STORAGE_CLIENT_GIT_DOWNLOAD &>> $LOG_FILE && \
+    cd ch-storage-client && \
+    log "[ch-storage-client] Running autogen.sh..." && \
+    ./autogen.sh &>> $LOG_FILE && configure_make_make_install "ch-storage-client" && \
+    cd ..
+  fi
 }
 
-cleanup
+function install_ffmpeg {
+  if test -f /usr/local/bin/ffmpeg; then
+    log "[ffmpeg] Already installed @ /usr/local/bin/ffmpeg"
+    ls -lh /usr/local/bin/ffmpeg
+  else
+    log "[ffmpeg] Installing custom ffmpeg..."
+    sudo cp -v ../tools/pi/ffmpeg/* /usr/local/bin
+  fi
+}
 
-init
+function install_supervisor {
+  if apt list --installed | grep supervisor; then
+    log "[supervisor] Already installed through apt."
+  else
+    log "[supervisor] Not found. Installing..."
+    sudo apt -y install supervisor &>> $LOG_FILE
+    log "[supervisor] Installed..."
+  fi
+}
 
+function configure_camera_scripts {
+  if test -f /usr/local/bin/ch-camera-capture.sh; then
+    log "[scripts] ch-camera-capture.sh found."
+    ls -l /usr/local/bin/ch-camera-capture.sh
+  else
+    log "[scripts] ch-camera-capture.sh not found. Copying..."
+    sudo cp -v ../tools/pi/scripts/ch-camera-capture.sh /usr/local/bin
+  fi
+
+  if test -f /usr/local/bin/ch-camera-encode.sh; then
+    log "[scripts] ch-camera-encode.sh found."
+    ls -l /usr/local/bin/ch-camera-encode.sh
+  else
+    log "[scripts] ch-camera-encode.sh not found. Copying..."
+    sudo cp -v ../tools/pi/scripts/ch-camera-encode.sh /usr/local/bin
+  fi
+}
+
+function configure_supervisor {
+  if test -f /etc/supervisor/conf.d/ch-camera-encode.conf; then
+    log "[supervisor] ch-camera-encode.conf found."
+    ls -l /etc/supervisor/conf.d/ch-camera-encode.conf
+  else
+    log "[supervisor] ch-camera-encode.conf not found. Copying..."
+    sudo cp -v ../tools/pi/scripts/supervisor/ch-camera-encode.conf /etc/supervisor/conf.d
+  fi
+
+  if test -f /etc/supervisor/conf.d/ch-camera-capture.conf; then
+    log "[supervisor] ch-camera-capture.conf found."
+    ls -l /etc/supervisor/conf.d/ch-camera-capture.conf
+  else
+    log "[supervisor] ch-camera-capture.conf not found. Copying..."
+    sudo cp -v ../tools/pi/scripts/supervisor/ch-camera-capture.conf /etc/supervisor/conf.d
+  fi
+
+  if test -f /etc/supervisor/supervisord.conf; then
+    log "[supervisor] /etc/supervisor/supervisord.conf found."
+    ls -l /etc/supervisor/supervisord.conf
+    if cat /etc/supervisor/supervisord.conf | grep "group:ch-camera"; then
+      log "[supervisor] group:ch-camera found."
+    else
+      log "[supervisor] group:ch-camera not found. Installing..."
+      sudo cp -v ../tools/pi/scripts/supervisor/supervisord.conf /etc/supervisor
+    fi
+  else
+    log "[supervisor] /etc/supervisor/supervisord.conf not found. Installing..."
+    sudo cp -v ../tools/pi/scripts/supervisor/supervisord.conf /etc/supervisor
+  fi
+}
+
+cleanup && init
 
 # install_libevent
 # install_glog
 # install_gperftools
 # install_ch_cpp_utils
 # install_ch_storage_client
+# install_ffmpeg
+# install_supervisor
+# configure_camera_scripts
+# configure_supervisor
 
-install_libevent && install_glog && install_gperftools && install_ch_cpp_utils && install_ch_storage_client
-
-cleanup
+install_libevent && \
+	install_glog && \
+	install_gperftools && \
+	install_ch_cpp_utils && \
+	install_ch_storage_client && \
+	install_ffmpeg && \
+	install_supervisor && \
+	configure_camera_scripts && \
+	configure_supervisor && \
+	cleanup && \
+	end_installation
 
