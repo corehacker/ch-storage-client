@@ -180,20 +180,12 @@ function install_supervisor {
 }
 
 function configure_camera_scripts {
-  if test -f /usr/local/bin/ch-camera-capture.sh; then
-    log "[scripts] ch-camera-capture.sh found."
-    ls -l /usr/local/bin/ch-camera-capture.sh
+  if test -f /usr/local/bin/ch-camera.sh; then
+    log "[scripts] ch-camera.sh found."
+    ls -l /usr/local/bin/ch-camera.sh
   else
-    log "[scripts] ch-camera-capture.sh not found. Copying..."
-    sudo cp -v ../tools/pi/scripts/ch-camera-capture.sh /usr/local/bin
-  fi
-
-  if test -f /usr/local/bin/ch-camera-encode.sh; then
-    log "[scripts] ch-camera-encode.sh found."
-    ls -l /usr/local/bin/ch-camera-encode.sh
-  else
-    log "[scripts] ch-camera-encode.sh not found. Copying..."
-    sudo cp -v ../tools/pi/scripts/ch-camera-encode.sh /usr/local/bin
+    log "[scripts] ch-camera.sh not found. Copying..."
+    sudo cp -v ../tools/pi/scripts/ch-camera.sh /usr/local/bin
   fi
 }
 
