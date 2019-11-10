@@ -149,6 +149,16 @@ function install_ch_storage_client {
   fi
 }
 
+function configure_ch_storage_client {
+  sudo mkdir -p /etc/ch-storage-client
+  if test -f /etc/ch-storage-client/ch-storage-client.json; then
+    log "[configure ch-storage-client] ch-storage-client.json found."
+    ls -l /etc/ch-storage-client/ch-storage-client.json
+  else
+    log "[configure ch-storage-client] ch-storage-client.json not found. Copying..."
+  fi
+}
+
 function install_ffmpeg {
   if test -f /usr/local/bin/ffmpeg; then
     log "[ffmpeg] Already installed @ /usr/local/bin/ffmpeg"
@@ -226,6 +236,7 @@ cleanup && init
 # install_gperftools
 # install_ch_cpp_utils
 # install_ch_storage_client
+# configure_ch_storage_client
 # install_ffmpeg
 # install_supervisor
 # configure_camera_scripts
@@ -236,6 +247,7 @@ install_libevent && \
 	install_gperftools && \
 	install_ch_cpp_utils && \
 	install_ch_storage_client && \
+	configure_ch_storage_client && \
 	install_ffmpeg && \
 	install_supervisor && \
 	configure_camera_scripts && \
