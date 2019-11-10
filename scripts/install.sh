@@ -198,34 +198,20 @@ function configure_camera_scripts {
 }
 
 function configure_supervisor {
-  if test -f /etc/supervisor/conf.d/ch-camera-encode.conf; then
-    log "[supervisor] ch-camera-encode.conf found."
-    ls -l /etc/supervisor/conf.d/ch-camera-encode.conf
+  if test -f /etc/supervisor/conf.d/ch-camera.conf; then
+    log "[supervisor] ch-camera.conf found."
+    ls -l /etc/supervisor/conf.d/ch-camera.conf
   else
-    log "[supervisor] ch-camera-encode.conf not found. Copying..."
-    sudo cp -v ../tools/pi/scripts/supervisor/ch-camera-encode.conf /etc/supervisor/conf.d
+    log "[supervisor] ch-camera.conf not found. Copying..."
+    sudo cp -v ../tools/pi/scripts/supervisor/ch-camera.conf /etc/supervisor/conf.d
   fi
 
-  if test -f /etc/supervisor/conf.d/ch-camera-capture.conf; then
-    log "[supervisor] ch-camera-capture.conf found."
-    ls -l /etc/supervisor/conf.d/ch-camera-capture.conf
+  if test -f /etc/supervisor/conf.d/ch-storage-client.conf; then
+    log "[supervisor] ch-storage-client.conf found."
+    ls -l /etc/supervisor/conf.d/ch-storage-client.conf
   else
-    log "[supervisor] ch-camera-capture.conf not found. Copying..."
-    sudo cp -v ../tools/pi/scripts/supervisor/ch-camera-capture.conf /etc/supervisor/conf.d
-  fi
-
-  if test -f /etc/supervisor/supervisord.conf; then
-    log "[supervisor] /etc/supervisor/supervisord.conf found."
-    ls -l /etc/supervisor/supervisord.conf
-    if cat /etc/supervisor/supervisord.conf | grep "group:ch-camera"; then
-      log "[supervisor] group:ch-camera found."
-    else
-      log "[supervisor] group:ch-camera not found. Installing..."
-      sudo cp -v ../tools/pi/scripts/supervisor/supervisord.conf /etc/supervisor
-    fi
-  else
-    log "[supervisor] /etc/supervisor/supervisord.conf not found. Installing..."
-    sudo cp -v ../tools/pi/scripts/supervisor/supervisord.conf /etc/supervisor
+    log "[supervisor] ch-storage-client.conf not found. Copying..."
+    sudo cp -v ../tools/pi/scripts/supervisor/ch-storage-client.conf /etc/supervisor/conf.d
   fi
 }
 
