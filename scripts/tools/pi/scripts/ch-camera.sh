@@ -37,6 +37,8 @@ HLS_BASE_SEGMENTS_URL="segments/"
 
 FFMPEG_VIDEO_CODEC="h264_omx"
 
+FFMPEG_CUSTOM_BINARY_PATH=""
+
 function generate_sbr_stream {
     echo "Generating SBR Stream."
     mkdir -p $target_dir_sbr
@@ -93,9 +95,9 @@ function generate_mbr_stream {
 
     target=${target_dir_mbr}
 
-    custom_ffmpeg_path=""
+    
     FFMPEG="ffmpeg"
-    [[ "${custom_ffmpeg_path}" ]] && FFMPEG="${custom_ffmpeg_path}/ffmpeg"
+    [[ "${FFMPEG_CUSTOM_BINARY_PATH}" ]] && FFMPEG="${FFMPEG_CUSTOM_BINARY_PATH}/ffmpeg"
 
     #########################################################################
 
