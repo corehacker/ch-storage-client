@@ -14,6 +14,7 @@ SBR_OR_MBR=$SBR
 
 [[ "${1}" ]] && SBR_OR_MBR=$1
 
+CAPTURE_BANNER="Garage 1 | %A %Y-%m-%d %X %Z"
 CAPTURE_WIDTH="1280"
 CAPTURE_HEIGHT="720"
 CAPTURE_FRAMERATE="24"
@@ -29,7 +30,7 @@ CAPTURE_COMMAND="raspivid --nopreview --verbose \
         --ISO 800 \
         --ev 6 \
         -ae 24,0x00,0x8080ff \
-        -a 1032 -a 'Garage 1 | %A %Y-%m-%d %X %Z' \
+        -a 1032 -a ${CAPTURE_BANNER} \
         -ih \
         --output -"
 
@@ -165,16 +166,16 @@ function generate_mbr_stream {
     # create master playlist file
     echo -e "${master_playlist}" > ${target}/playlist.m3u8
 
-    echo -e "Executing command:\n $CAPTURE_COMMAND | ${FFMPEG} ${misc_params} ${cmd}"
+    COMMAND="$CAPTURE_COMMAND | ${FFMPEG} ${misc_params} ${cmd}"
+
+    echo -e "Executing command:\n ${COMMAND}"
 
     # -re          | Realtime encoding.
     # -f           | Concation function for looping.
     # -i list.txt  | Input files for looping.
     # ${FFMPEG} -re -f concat ${misc_params} -i list.txt ${cmd}
 
-    $CAPTURE_COMMAND | ${FFMPEG} ${misc_params} ${cmd}
-
-
+    ${COMMAND}
 
     echo "Done - encoded HLS is at ${target}/"
 
