@@ -28,7 +28,6 @@ FFMPEG_CUSTOM_BINARY_PATH="/usr/local/bin/ffmpeg-n4.2.1-dynamic"
 
 function generate_sbr_stream {
     echo "Generating SBR Stream."
-    rm -rf $target_dir_sbr
     mkdir -p $target_dir_sbr
     mkdir -p $target_dir_sbr/segments
     raspivid --nopreview --verbose \
@@ -87,8 +86,6 @@ function generate_mbr_stream {
     [[ "${FFMPEG_CUSTOM_BINARY_PATH}" ]] && FFMPEG="${FFMPEG_CUSTOM_BINARY_PATH}/ffmpeg"
 
     #########################################################################
-
-    rm -rf ${target}
 
     mkdir -p ${target}
 
@@ -168,8 +165,6 @@ function generate_mbr_stream {
 	    ${FFMPEG} ${misc_params} ${cmd}
 
     echo "Done - encoded HLS is at ${target}/"
-
-    trap "rm -rf $target_dir_mbr/*" EXIT SIGTERM SIGINT
 }
 
 if [ $SBR_OR_MBR == $SBR ]; then
@@ -179,4 +174,4 @@ else
 fi
 
 
-trap "rm -rf $target_dir_sbr $target_dir_mbr" EXIT SIGTERM SIGINT
+trap "rm -rf $target_dir_sbr/live.m3u8 $target_dir_sbr/segments/*.ts $target_dir_mbr/480p/live.m3u8 $target_dir_mbr/480p/segments/*.ts $target_dir_mbr/720p/live.m3u8 $target_dir_mbr/720p/segments/*.ts" EXIT SIGTERM SIGINT
