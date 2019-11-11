@@ -8,7 +8,7 @@ SBR="sbr"
 MBR="mbr"
 
 target_dir_sbr="$target_dir/$SBR"
-target_dir_mbr="$PWD/$MBR"
+target_dir_mbr="$target_dir/$MBR"
 
 SBR_OR_MBR=$SBR
 
