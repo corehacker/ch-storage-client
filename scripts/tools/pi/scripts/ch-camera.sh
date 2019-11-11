@@ -14,34 +14,21 @@ SBR_OR_MBR=$SBR
 
 [[ "${1}" ]] && SBR_OR_MBR=$1
 
-CAPTURE_BANNER="Garage 1 | %A %Y-%m-%d %X %Z"
+CAPTURE_BANNER="Garage 1 - %A %Y-%m-%d %X %Z"
 CAPTURE_WIDTH="1280"
 CAPTURE_HEIGHT="720"
 CAPTURE_FRAMERATE="24"
 CAPTURE_BITRATE="2000000"
-CAPTURE_COMMAND="raspivid --nopreview --verbose \
-        -w $CAPTURE_WIDTH \
-        -h $CAPTURE_HEIGHT \
-        --framerate $CAPTURE_FRAMERATE \
-        --bitrate $CAPTURE_BITRATE \
-        --timeout 0 \
-        --awb shade \
-        --exposure night \
-        --ISO 800 \
-        --ev 6 \
-        -ae 24,0x00,0x8080ff \
-        -a 1032 -a ${CAPTURE_BANNER} \
-        -ih \
-        --output -"
 
 HLS_BASE_SEGMENTS_URL="segments/"
 
 FFMPEG_VIDEO_CODEC="h264_omx"
 
-FFMPEG_CUSTOM_BINARY_PATH=""
+FFMPEG_CUSTOM_BINARY_PATH="/usr/local/bin/ffmpeg-n4.2.1-dynamic"
 
 function generate_sbr_stream {
     echo "Generating SBR Stream."
+    rm -rf $target_dir_sbr
     mkdir -p $target_dir_sbr
     mkdir -p $target_dir_sbr/segments
     raspivid --nopreview --verbose \
@@ -74,7 +61,6 @@ function generate_sbr_stream {
         -segment_list_entry_prefix segments/ \
         "$target_dir_sbr/segments/%08d.ts"  
 
-    trap "rm $target_dir_sbr/live.m3u8 $target_dir_sbr/segments/*.ts" EXIT SIGTERM SIGINT
 }
 
 function generate_mbr_stream {
@@ -166,29 +152,24 @@ function generate_mbr_stream {
     # create master playlist file
     echo -e "${master_playlist}" > ${target}/playlist.m3u8
 
-    COMMAND="$CAPTURE_COMMAND | ${FFMPEG} ${misc_params} ${cmd}"
+    COMMAND="raspivid --nopreview --verbose -w $CAPTURE_WIDTH -h $CAPTURE_HEIGHT --framerate $CAPTURE_FRAMERATE --bitrate $CAPTURE_BITRATE --timeout 0 --awb shade --exposure night --ISO 800 --ev 6 -ae 24,0x00,0x8080ff -a 1032 -a "${CAPTURE_BANNER}" -ih --output - | ${FFMPEG} ${misc_params} ${cmd}"
 
     echo -e "Executing command:\n ${COMMAND}"
 
-    # -re          | Realtime encoding.
-    # -f           | Concation function for looping.
-    # -i list.txt  | Input files for looping.
-    # ${FFMPEG} -re -f concat ${misc_params} -i list.txt ${cmd}
-
-    ${COMMAND}
+    raspivid --nopreview --verbose \
+	    -w $CAPTURE_WIDTH \
+	    -h $CAPTURE_HEIGHT \
+	    --framerate $CAPTURE_FRAMERATE \
+	    --bitrate $CAPTURE_BITRATE \
+	    --timeout 0 --awb shade \
+	    --exposure night --ISO 800 --ev 6 \
+	    -ae 24,0x00,0x8080ff -a 1032 \
+	    -a "${CAPTURE_BANNER}" -ih --output - | \
+	    ${FFMPEG} ${misc_params} ${cmd}
 
     echo "Done - encoded HLS is at ${target}/"
 
-
-    # raspivid --nopreview --verbose         -w 1280         -h 720         --framerate 24         --bitrate 2000000         --timeout 0         --awb shade         --exposure night         --ISO 800         --ev 6         -ae 24,0x00,0x8080ff         -a 1032 -a 'Garage 1 | %A %Y-%m-%d %X %Z'         -ih         --output - | \
-    # ./ffmpeg -r 24 -y -i -  \
-    # -g 48 -keyint_min 48 -hls_time 4 -hls_playlist_type event -hls_list_size 5 -hls_flags delete_segments -vf scale=w=1280:h=720:force_original_aspect_ratio=decrease -c:v h264_omx -b:v 2000k -maxrate 2140k -bufsize 3000k -hls_segment_filename /home/pi/security/hls/mbr/720p/720p_%03d.ts /home/pi/security/hls/mbr/720p/720p.m3u8 
-    # -g 48 -keyint_min 48 -hls_time 4 -hls_playlist_type event -hls_list_size 5 -hls_flags delete_segments -vf scale=w=848:h=480:force_original_aspect_ratio=decrease -c:v h264_omx -b:v 1200k -maxrate 1284k -bufsize 1800k -hls_segment_filename /home/pi/security/hls/mbr/480p/480p_%03d.ts /home/pi/security/hls/mbr/480p/480p.m3u8
-
-    # raspivid --nopreview --verbose         -w 1280         -h 720         --framerate 24         --bitrate 2000000         --timeout 0         --awb shade         --exposure night         --ISO 800         --ev 6         -ae 24,0x00,0x8080ff         -a 1032 -a 'Garage 1 | %A %Y-%m-%d %X %Z'         -ih         --output - | \
-    # ffmpeg -r 24 -y -i -   \
-    # -g 48 -keyint_min 48 -hls_time 4 -hls_playlist_type event -hls_list_size 5 -hls_flags delete_segments -vf scale=w=848:h=480:force_original_aspect_ratio=decrease -c:v h264_omx -b:v 1200k -maxrate 1284k -bufsize 1800k -hls_segment_filename /home/pi/security/hls/mbr/480p/segments/480p_%08d.ts -hls_base_url segments/ /home/pi/security/hls/mbr/480p/live.m3u8  \
-    # -g 48 -keyint_min 48 -hls_time 4 -hls_playlist_type event -hls_list_size 5 -hls_flags delete_segments -vf scale=w=1280:h=720:force_original_aspect_ratio=decrease -c:v h264_omx -b:v 2000k -maxrate 2140k -bufsize 3000k -hls_segment_filename /home/pi/security/hls/mbr/720p/segments/720p_%08d.ts -hls_base_url segments/ /home/pi/security/hls/mbr/720p/live.m3u8
+    trap "rm -rf $target_dir_mbr/*" EXIT SIGTERM SIGINT
 }
 
 if [ $SBR_OR_MBR == $SBR ]; then
@@ -198,3 +179,4 @@ else
 fi
 
 
+trap "rm -rf $target_dir_sbr $target_dir_mbr" EXIT SIGTERM SIGINT
