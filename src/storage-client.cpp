@@ -121,10 +121,10 @@ StorageClient::StorageClient(Config *config) {
 		options.bIgnoreHiddenDirs = true;
 		options.bIgnoreRegularDirs = true;
 		options.filters = mConfig->getFilters();
-		Fts *fts = new Fts(watch, &options);
+		Fts *fts = new Fts(watch.dir, &options);
 		mFts.emplace_back(fts);
 
-		FsWatch *fsWatch = new FsWatch(watch);
+		FsWatch *fsWatch = new FsWatch(watch.dir);
 		mFsWatch.emplace_back(fsWatch);
 	}
 
@@ -264,7 +264,7 @@ void StorageClient::purge(bool force) {
 		options.bIgnoreHiddenFiles = true;
 		options.bIgnoreHiddenDirs = true;
 		options.bIgnoreRegularDirs = true;
-		Fts fts(watchDir, &options);
+		Fts fts(watchDir.dir, &options);
 		if(!force) {
 			fts.walk(StorageClient::_onFilePurge, this);
 		} else {

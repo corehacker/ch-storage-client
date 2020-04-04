@@ -6,7 +6,9 @@
     "run-forever": false,
     "max-rss": 209715200,
     "watch": [
-        "./data"
+        {
+            "dir": "./data"
+        }
     ],
     "filters": [
         "ts", "m3u8"

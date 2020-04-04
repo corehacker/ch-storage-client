@@ -92,9 +92,11 @@ bool Config::populateConfigValues() {
 	mPurgeIntervalSec = mJson["purge"]["interval-s"];
 	LOG(INFO) << "purge.interval-s: " << mPurgeIntervalSec;
 
-	for(string watch : mJson["watch"]) {
-		LOG(INFO) << "Watch dir: " << watch;
-		watchDirs.emplace_back(watch);
+	auto const watches = mJson.find("watch");
+	for (auto const& watch : *watches) {
+		WatchDir watchDir(watch["dir"].get<string>(), watch.value("upload", false));
+		watchDirs.emplace_back(watchDir);
+		LOG(INFO) << "watch[\"" << watchDir.dir << "\"]: " << (watchDir.upload ? "true" : "false");
 	}
 
 	for(string filter : mJson["filters"]) {
@@ -132,7 +134,7 @@ bool Config::populateConfigValues() {
 	return true;
 }
 
-vector<string> &Config::getWatchDirs() {
+vector<WatchDir> &Config::getWatchDirs() {
 	return watchDirs;
 }
 
@@ -202,6 +204,16 @@ char **Config::getCameraCaptureCharsPtrs() {
 
 char **Config::getCameraEncodeCharsPtrs() {
 	return (mCameraEncodeChars.size() ? &mCameraEncodeChars[0] : nullptr);
+}
+
+WatchDir::WatchDir() {
+	dir = "";
+	upload = false;
+}
+
+WatchDir::WatchDir(string dir, bool upload) {
+	this->dir = dir;
+	this->upload = upload;
 }
 
 } // End namespace SS.

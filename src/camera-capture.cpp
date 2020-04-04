@@ -63,8 +63,8 @@ static void initCapture();
 
 static void initCapture() {
 	for(auto watch : config->getWatchDirs()) {
-		for(auto file : directoryListing(watch)) {
-			string path = watch + "/" + file;
+		for(auto file : directoryListing(watch.dir)) {
+			string path = watch.dir + "/" + file;
 			LOG(INFO) << "Deleting file: " << path;
 			if(0 != std::remove(path.data())) {
 				LOG(ERROR) << "File: " << path << " failed to delete";

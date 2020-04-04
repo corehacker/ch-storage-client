@@ -52,9 +52,19 @@ using std::string;
 
 namespace SC {
 
+class WatchDir {
+public:
+	string dir;
+	bool upload;
+
+	WatchDir();
+
+	WatchDir(string dir, bool upload);
+};
+
 class Config : public ChCppUtils::Config {
 private:
-	vector<string> watchDirs;
+	vector<WatchDir> watchDirs;
 	vector<string> filters;
 
 	string hostname;
@@ -79,7 +89,7 @@ public:
 	~Config();
 	void init();
 
-	vector<string> &getWatchDirs();
+	vector<WatchDir> &getWatchDirs();
 	vector<string> &getFilters();
 	string &getHostname();
 	uint16_t getPort();
