@@ -174,11 +174,12 @@ bool StorageClient::shouldUpload(OnFileData &data) {
 void StorageClient::onFile(OnFileData &data) {
 	LOG(INFO) << "onFile: " << data.name << ", " << data.path << ", " << data.ext;
 
-	if(shouldUpload(data)) {
-		LOG(INFO) << "Needs upload based on config";
-	} else {
+	if(!shouldUpload(data)) {
 		LOG(INFO) << "No upload needed based on config";
+		return;
 	}
+	
+	LOG(INFO) << "Needs upload based on config";
 
 	if(data.ext == "ts") {
 		std::ifstream segmentFile(data.path);
