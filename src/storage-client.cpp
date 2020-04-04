@@ -125,6 +125,7 @@ StorageClient::StorageClient(Config *config) {
 		mFts.emplace_back(fts);
 
 		FsWatch *fsWatch = new FsWatch(watch.dir);
+		LOG(INFO) << "Adding watch: " << watch.dir << ": " << (watch.upload ? "true" : "false");
 		mFsWatch.emplace_back(fsWatch);
 	}
 
@@ -155,6 +156,7 @@ void StorageClient::_onFile(OnFileData &data, void *this_) {
 }
 
 void StorageClient::onFile(OnFileData &data) {
+	LOG(INFO) << "onFile: " << data.name << ", " << data.path << ", " << data.ext;
 	if(data.ext == "ts") {
 		std::ifstream segmentFile(data.path);
 		if(!segmentFile.is_open()) {
