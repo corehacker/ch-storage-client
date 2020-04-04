@@ -56,6 +56,7 @@
 
 using std::vector;
 using std::string;
+using std::unordered_map;
 using namespace std::chrono;
 
 using json = nlohmann::json;
@@ -97,6 +98,9 @@ private:
 	string uploadPrefix;
 	vector<OnFileData> uploadQueue;
 	ProcStat *procStat;
+	unordered_map<string, bool> mWatchDirMap;
+
+	bool shouldUpload(OnFileData &data);
 
 	static void _onFile(OnFileData &data, void *this_);
 	void onFile(OnFileData &data);

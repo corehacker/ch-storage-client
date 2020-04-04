@@ -127,6 +127,8 @@ StorageClient::StorageClient(Config *config) {
 		FsWatch *fsWatch = new FsWatch(watch.dir);
 		LOG(INFO) << "Adding watch: " << watch.dir << ": " << (watch.upload ? "true" : "false");
 		mFsWatch.emplace_back(fsWatch);
+
+		mWatchDirMap.emplace(make_pair(watch.dir, watch.upload));
 	}
 
 	uploadPrefix = "http://" + mConfig->getHostname() + ":" +
@@ -155,8 +157,29 @@ void StorageClient::_onFile(OnFileData &data, void *this_) {
 	client->onFile(data);
 }
 
+bool StorageClient::shouldUpload(OnFileData &data) {
+	unordered_map<string, bool>::iterator it;
+	bool upload = false;
+	for ( it = mWatchDirMap.begin(); it != mWatchDirMap.end(); it++ ) {
+		string dir = it->first;
+		upload = it->second;
+		if(strncmp(data.path.c_str(), dir.c_str(), dir.size()) == 0) {
+			break;
+		}
+	}
+
+	return upload;
+}
+
 void StorageClient::onFile(OnFileData &data) {
 	LOG(INFO) << "onFile: " << data.name << ", " << data.path << ", " << data.ext;
+
+	if(shouldUpload(data)) {
+		LOG(INFO) << "Needs upload based on config";
+	} else {
+		LOG(INFO) << "No upload needed based on config";
+	}
+
 	if(data.ext == "ts") {
 		std::ifstream segmentFile(data.path);
 		if(!segmentFile.is_open()) {
